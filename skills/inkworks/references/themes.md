@@ -51,7 +51,7 @@ The drawing rules in `look.md` hold in every theme: one meaning per hue, ink out
 
 `kit/tools/design_check.sh "<page url>"` runs `impeccable detect` on the running page at 1280x800 and 390x844, once per theme (the project's `DESIGN.md`, or every built-in in the skill's kit), paused with `?play=0`. It exits 1 on any finding; advisories are not counted. Set `IMPECCABLE` to a local CLI path to skip `npx`.
 
-Known gap: `engine` cannot be scanned. The detector renders with software WebGL (SwiftShader) and waits for the page's main thread to have an idle period before it scans. The kit draws every frame, even when paused, and an engine frame costs about 28 ms in SwiftShader, longer than one 60 Hz frame, so the page never goes idle and the detector reports `Navigation timeout of 30000 ms exceeded`. Upstream 1.1.0 behaves the same. `pump`, `regen` and `starter` draw in under 17 ms and scan normally. A paused page that stops drawing once nothing changes would fix it; until then, check themes on the lighter examples.
+`design_check.sh` scans paused pages. A paused page stops drawing once nothing has changed for 1.5 s, which lets the main thread go idle; the detector waits for that before it scans. Without it, `engine` (about 28 ms a frame in the detector's software WebGL) never went idle and timed out.
 
 `kit/.impeccable/config.json` holds the ignores the built-in themes need, each with its reason:
 
