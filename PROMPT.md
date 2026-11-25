@@ -4,14 +4,14 @@
 - **Inputs:** an interactive 3D page about how a car engine works, built and restyled in the same session, and its 43 second walkthrough clip with a code-synthesised engine sound.
 - **Process.**
   - The engine page was first built in a navy blueprint style, then restyled to white drafting paper at the user's request.
-  - The user asked for it to be saved as a reusable template named "Drafting Sheet".
+  - The user asked for it to be saved as a reusable template named "Drafting Sheet". It was renamed Inkworks when it was open-sourced.
   - The next day the user asked for the skill to also make clean figure-only versions of the page, and to open-source it. They chose a standalone repo, both layouts, and a second machine to prove the split.
   - The page was split into a rendering kit, the page shell and one file per machine. A bike floor pump and a commented starter were added, along with the scaffolding script, the smoke test and a recorder generalised to plan files.
 - **Tested:** `smoke.py` passed for all three mechanisms in both layouts at 1440x900, 1280x720 and 390x844. Both 60 fps demo clips were recorded with no page errors.
 
 ## Prompt to recreate this repo
 
-> Build an open-source agent skill, `drafting-sheet`, for interactive 3D "how it works" pages that look like an engineering drawing. Ship it as a standalone repo, installable with `npx skills add`, plus Claude Code, Codex, Cursor and Gemini manifests and a no-Node shell installer.
+> Build an open-source agent skill, `inkworks`, for interactive 3D "how it works" pages that look like an engineering drawing. Ship it as a standalone repo, installable with `npx skills add`, plus Claude Code, Codex, Cursor and Gemini manifests and a no-Node shell installer.
 >
 > **The look.**
 > - White grid paper (`#f8f9fb`, faint blue-grey 20px and 100px grid), ink `#161b26`.

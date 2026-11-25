@@ -1,4 +1,4 @@
-"""Frame-exact 60 fps walkthrough clip of a Drafting Sheet page (silent), for X / socials.
+"""Frame-exact 60 fps walkthrough clip of a Inkworks page (silent), for X / socials.
 
 The page clock is virtual: performance.now, Date.now, requestAnimationFrame, setTimeout and CSS
 animations advance exactly 1/60 s per video frame, so the clip is smooth however slow each

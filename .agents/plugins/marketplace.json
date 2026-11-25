@@ -1,14 +1,14 @@
 {
-  "name": "drafting-sheet-skill",
+  "name": "inkworks-skill",
   "interface": {
-    "displayName": "Drafting Sheet Skill"
+    "displayName": "Inkworks"
   },
   "plugins": [
     {
-      "name": "drafting-sheet-skill",
+      "name": "inkworks-skill",
       "source": {
         "source": "url",
-        "url": "https://github.com/Moh4696/drafting-sheet-skill.git",
+        "url": "https://github.com/Moh4696/inkworks-skill.git",
         "ref": "main"
       },
       "policy": {

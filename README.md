@@ -1,4 +1,4 @@
-<h1 align="center">Drafting Sheet Skill</h1>
+<h1 align="center">Inkworks</h1>
 
 <p align="center">Interactive 3D "how it works" pages that look like an engineering drawing, built by your coding agent.</p>
 
@@ -7,7 +7,7 @@
   &nbsp;
   <img src="https://img.shields.io/badge/agents-Claude%20Code%20%C2%B7%20Codex%20%C2%B7%20Cursor%20%C2%B7%20Gemini%20%C2%B7%20OpenCode-24292f?style=flat" alt="Works with Claude Code, Codex, Cursor, Gemini CLI and OpenCode" />
   &nbsp;
-  <a href="https://github.com/Moh4696/drafting-sheet-skill/actions/workflows/check.yml"><img src="https://github.com/Moh4696/drafting-sheet-skill/actions/workflows/check.yml/badge.svg" alt="Checks" /></a>
+  <a href="https://github.com/Moh4696/inkworks-skill/actions/workflows/check.yml"><img src="https://github.com/Moh4696/inkworks-skill/actions/workflows/check.yml/badge.svg" alt="Checks" /></a>
 </p>
 
 <p align="center">
@@ -30,7 +30,7 @@ Everything is code: three.js parts built from primitives, closed-form kinematics
 ## Install
 
 ```bash
-npx skills add Moh4696/drafting-sheet-skill
+npx skills add Moh4696/inkworks-skill
 ```
 
 That uses the [`npx skills`](https://github.com/vercel-labs/skills) CLI (Node 22.20+). It installs for Claude Code, Codex, Cursor, Gemini CLI, OpenCode and dozens more. Start a new agent session afterwards.
@@ -39,8 +39,8 @@ That uses the [`npx skills`](https://github.com/vercel-labs/skills) CLI (Node 22
 <summary>Claude Code plugin</summary>
 
 ```
-/plugin marketplace add Moh4696/drafting-sheet-skill
-/plugin install drafting-sheet-skill@drafting-sheet-skill
+/plugin marketplace add Moh4696/inkworks-skill
+/plugin install inkworks-skill@inkworks-skill
 ```
 
 </details>
@@ -49,8 +49,8 @@ That uses the [`npx skills`](https://github.com/vercel-labs/skills) CLI (Node 22
 <summary>Codex plugin</summary>
 
 ```bash
-codex plugin marketplace add Moh4696/drafting-sheet-skill
-codex plugin add drafting-sheet-skill@drafting-sheet-skill
+codex plugin marketplace add Moh4696/inkworks-skill
+codex plugin add inkworks-skill@inkworks-skill
 ```
 
 </details>
@@ -59,10 +59,10 @@ codex plugin add drafting-sheet-skill@drafting-sheet-skill
 <summary>Without Node</summary>
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Moh4696/drafting-sheet-skill/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/Moh4696/inkworks-skill/main/install.sh | bash
 ```
 
-It clones the repo to `~/.drafting-sheet-skill` and links the skill into every agent it finds. Run it again to update; `--uninstall` removes it.
+It clones the repo to `~/.inkworks-skill` and links the skill into every agent it finds. Run it again to update; `--uninstall` removes it.
 
 </details>
 
@@ -81,14 +81,14 @@ Any machine with a cycle: engines, pumps, compressors, locks, gearboxes, turbine
 
 ## How it works
 
-- **The kit** (`skills/drafting-sheet/kit/`) is a complete page with no build step and three.js vendored. `kit.js` is the drawing style: toon parts with ink edges and constant-pixel outlines, hidden-line ghosts, glass, particle streams, sparks, gears and springs. `sheet.js` is everything around the machine: the DOM, state, loop, both layouts, controls, gauge, charts, labels and tags.
+- **The kit** (`skills/inkworks/kit/`) is a complete page with no build step and three.js vendored. `kit.js` is the drawing style: toon parts with ink edges and constant-pixel outlines, hidden-line ghosts, glass, particle streams, sparks, gears and springs. `sheet.js` is everything around the machine: the DOM, state, loop, both layouts, controls, gauge, charts, labels and tags.
 - **A mechanism** is one file. It holds the geometry, the kinematics as functions of one driver angle, phase names and text, labels, readouts, the camera, and what the slider drives. `starter.js` is the smallest complete one, with every field commented. `engine.js` and `pump.js` are the worked examples.
 - **Tools.** `smoke.py` clicks every control in both layouts at three screen sizes and fails on any page error. `record.py` makes frame-exact 60 fps walkthrough clips with a drawn cursor and real mouse events, from a short plan file. `engine_sound.py` shows how to synthesise a sound track from the clip's own per-frame state, so the engine note follows the tachometer.
 
 ## Try it
 
 ```bash
-git clone https://github.com/Moh4696/drafting-sheet-skill && cd drafting-sheet-skill/skills/drafting-sheet
+git clone https://github.com/Moh4696/inkworks-skill && cd inkworks-skill/skills/inkworks
 python3 kit/serve.py 9081
 # http://localhost:9081/?m=engine   http://localhost:9081/?m=pump&layout=sheet   http://localhost:9081/?m=starter
 ```
@@ -112,4 +112,4 @@ Open an issue or a pull request, or find me on X at [@exploraX_](https://x.com/e
 
 ## License
 
-[MIT License](LICENSE) · Copyright (c) 2026 exploraX. three.js is vendored under its own MIT licence (`skills/drafting-sheet/kit/vendor/three/LICENSE`).
+[MIT License](LICENSE) · Copyright (c) 2026 exploraX. three.js is vendored under its own MIT licence (`skills/inkworks/kit/vendor/three/LICENSE`).

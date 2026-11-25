@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
-# Install Drafting Sheet Skill for every coding agent on this machine, without Node.
-# (With Node 22.20+, `npx skills add Moh4696/drafting-sheet-skill` does the same.)
+# Install Inkworks for every coding agent on this machine, without Node.
+# (With Node 22.20+, `npx skills add Moh4696/inkworks-skill` does the same.)
 #
-#   curl -fsSL https://raw.githubusercontent.com/Moh4696/drafting-sheet-skill/main/install.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/Moh4696/inkworks-skill/main/install.sh | bash
 #
-# Run from the internet, it clones the repo to ~/.drafting-sheet-skill (or updates it) and links the
-# skills from there, so `bash ~/.drafting-sheet-skill/install.sh` again (or a git pull) updates them.
+# Run from the internet, it clones the repo to ~/.inkworks-skill (or updates it) and links the
+# skills from there, so `bash ~/.inkworks-skill/install.sh` again (or a git pull) updates them.
 # Run from a clone, it links from that clone.
 #
 #   ./install.sh                     every agent found: Claude Code, Codex, Cursor, Gemini CLI, OpenCode
 #   ./install.sh --claude --codex    only these (also --cursor --gemini --opencode --agents)
 #   ./install.sh --dir PATH          into any skills folder
 #   ./install.sh --copy              copy instead of symlink (Windows, synced folders)
-#   ./install.sh drafting-sheet      only this skill, by name
+#   ./install.sh inkworks      only this skill, by name
 #   ./install.sh --list              show the skills
 #   ./install.sh --uninstall         remove links and copies this script made
 #
@@ -20,9 +20,9 @@
 
 set -euo pipefail
 
-REPO_URL="https://github.com/Moh4696/drafting-sheet-skill.git"
-HOME_CLONE="${DRAFTING_SHEET_HOME:-$HOME/.drafting-sheet-skill}"
-MARK=".drafting-sheet-skill"
+REPO_URL="https://github.com/Moh4696/inkworks-skill.git"
+HOME_CLONE="${INKWORKS_HOME:-$HOME/.inkworks-skill}"
+MARK=".inkworks-skill"
 
 SELF="${BASH_SOURCE[0]:-}"
 REPO=""

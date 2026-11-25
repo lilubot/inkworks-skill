@@ -1,4 +1,4 @@
-"""Smoke test for any Drafting Sheet page: drives every control and checks the state reacts.
+"""Smoke test for any Inkworks page: drives every control and checks the state reacts.
 
   python3 tools/smoke.py --url "http://localhost:9081/?m=pump"             # both layouts, 1440x900 + phone
   python3 tools/smoke.py --url ... --layouts sheet --sizes 1440x900

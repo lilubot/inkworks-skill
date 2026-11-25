@@ -1,5 +1,5 @@
 /* =========================================================================
-   STARTER mechanism: the smallest complete Drafting Sheet machine.
+   STARTER mechanism: the smallest complete Inkworks machine.
    A crank wheel drives a slider through a connecting rod (slider-crank).
    Copy this file, rename it, and replace geometry + kinematics + words.
    Every field the page uses is here, with a comment saying what it does.

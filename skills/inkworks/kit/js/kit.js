@@ -1,5 +1,5 @@
 /* =========================================================================
-   Drafting Sheet: 3D rendering kit
+   Inkworks: 3D rendering kit
    Ink-outlined toon parts, hidden-line ghosts, flow particles and helpers.
    Mechanism files get all of this as `kit` in build(kit).
    ========================================================================= */

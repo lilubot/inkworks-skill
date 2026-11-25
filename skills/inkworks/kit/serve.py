@@ -1,4 +1,4 @@
-"""Static server for a Drafting Sheet page that never lets the browser cache modules.
+"""Static server for a Inkworks page that never lets the browser cache modules.
 
     python3 serve.py            # http://localhost:9081/
     python3 serve.py 9000       # another port

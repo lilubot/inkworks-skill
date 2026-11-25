@@ -1,5 +1,5 @@
 /* =========================================================================
-   Drafting Sheet: the page around a mechanism.
+   Inkworks: the page around a mechanism.
    Builds the DOM from the mechanism's metadata, owns the state, the loop,
    the layout (sheet or figure), controls, gauge, charts, callouts and tags.
    A mechanism only supplies geometry + kinematics + words (see mechanisms/).

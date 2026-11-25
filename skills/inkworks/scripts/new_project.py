@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Start a new Drafting Sheet project from the kit.
+"""Start a new Inkworks project from the kit.
 
   python3 scripts/new_project.py ../how-a-lock-works --name lock --from starter --layout sheet
   python3 scripts/new_project.py ./pump-page --from pump --layout figure
@@ -50,7 +50,7 @@ def main():
     html = re.sub(r"<body[^>]*>", f"<body {attrs}>", html, count=1)
     index.write_text(html)
 
-    print(f"new Drafting Sheet project in {dest}")
+    print(f"new Inkworks project in {dest}")
     print(f"  mechanism: js/mechanisms/{name}.js (from {a.src})   layout: {a.layout or 'mechanism default'}")
     print(f"  serve:     python3 {dest / 'serve.py'} 9081   ->  http://localhost:9081/")
     print(f"  check:     python3 {dest / 'tools/smoke.py'} --url http://localhost:9081/")

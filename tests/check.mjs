@@ -70,7 +70,7 @@ for (const rel of manifests) {
   const p = join(ROOT, rel);
   if (!existsSync(p)) { fail(rel, 'missing'); continue; }
   let j; try { j = JSON.parse(readFileSync(p, 'utf8')); } catch (e) { fail(rel, 'invalid JSON: ' + e.message); continue; }
-  if (j.name !== 'drafting-sheet-skill') fail(rel, `name is ${JSON.stringify(j.name)}, expected "drafting-sheet-skill"`);
+  if (j.name !== 'inkworks-skill') fail(rel, `name is ${JSON.stringify(j.name)}, expected "inkworks-skill"`);
   for (const plugin of j.plugins || []) {
     if (plugin.version) versions.add(plugin.version);
     for (const s of [].concat(plugin.skills || [])) if (!existsSync(join(ROOT, s, 'SKILL.md'))) fail(rel, `lists ${s}, which has no SKILL.md`);

@@ -1,9 +1,9 @@
 ---
-name: drafting-sheet
-description: Builds interactive 3D "how it works" explainer pages for any machine or mechanism (engines, pumps, locks, gearboxes, turbines, printers, hearts) in the Drafting Sheet look, a white engineering drawing with ink-outlined three.js parts, numbered balloon labels and a cycle you can slow down, step, scrub and orbit. Two layouts, a full drafting sheet with instruments and a cycle chart, or a clean figure card with the model alone. You write one mechanism file of geometry, kinematics and words, the kit does the rest. Also records a frame-exact 60 fps walkthrough clip with a visible cursor and can add a code-synthesised sound track. Use for "3D explainer of how X works", "interactive simulation of an engine", "animated cutaway", "drafting sheet", "blueprint style 3D page", "explain this mechanism in 3D", or a clip of one for X or YouTube.
+name: inkworks
+description: Builds interactive 3D "how it works" explainer pages for any machine or mechanism (engines, pumps, locks, gearboxes, turbines, printers, hearts) in the Inkworks look, a white engineering drawing with ink-outlined three.js parts, numbered balloon labels and a cycle you can slow down, step, scrub and orbit. Two layouts, a full drafting sheet with instruments and a cycle chart, or a clean figure card with the model alone. You write one mechanism file of geometry, kinematics and words, the kit does the rest. Also records a frame-exact 60 fps walkthrough clip with a visible cursor and can add a code-synthesised sound track. Use for "3D explainer of how X works", "interactive simulation of an engine", "animated cutaway", "inkworks", "drafting sheet", "blueprint style 3D page", "explain this mechanism in 3D", or a clip of one for X or YouTube.
 ---
 
-# Drafting Sheet
+# Inkworks
 
 A page made this way is an engineering drawing that moves. One machine, drawn in light grey parts with ink outlines on white grid paper, labelled with numbered drafting balloons, running through its cycle slowly enough to follow. People can pause it, step one phase at a time, scrub a chart, follow one cylinder, open the throttle and orbit the camera.
 

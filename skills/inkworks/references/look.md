@@ -1,6 +1,6 @@
 # The look
 
-The Drafting Sheet is a technical drawing that happens to move. Keep these values; the CSS tokens live on `:root` in `kit/css/sheet.css`.
+An Inkworks page is a technical drawing that happens to move. Keep these values; the CSS tokens live on `:root` in `kit/css/sheet.css`.
 
 ## Paper and ink
 

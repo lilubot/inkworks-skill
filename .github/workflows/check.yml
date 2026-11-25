@@ -24,9 +24,9 @@ jobs:
         run: |
           export HOME="$RUNNER_TEMP/home" && mkdir -p "$HOME/.claude" "$HOME/.codex"
           bash install.sh
-          test -L "$HOME/.claude/skills/drafting-sheet" && test -L "$HOME/.codex/skills/drafting-sheet"
+          test -L "$HOME/.claude/skills/inkworks" && test -L "$HOME/.codex/skills/inkworks"
           bash install.sh --uninstall --claude --codex
-          test ! -e "$HOME/.claude/skills/drafting-sheet"
+          test ! -e "$HOME/.claude/skills/inkworks"
 
   pages:
     # serves the kit and drives every control of every mechanism in both layouts (headless Chromium, SwiftShader WebGL)
@@ -43,7 +43,7 @@ jobs:
       - name: Scaffold a project, serve it, smoke-test all mechanisms
         run: |
           P="$RUNNER_TEMP/proj"
-          python skills/drafting-sheet/scripts/new_project.py "$P" --name lock --from starter
+          python skills/inkworks/scripts/new_project.py "$P" --name lock --from starter
           (cd "$P" && python serve.py 9081 > /dev/null 2>&1 &)
           sleep 2
           for m in lock examples/engine examples/pump; do

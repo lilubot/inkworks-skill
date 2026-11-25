@@ -1,4 +1,4 @@
-"""Headless stills of a Drafting Sheet page.
+"""Headless stills of a Inkworks page.
 
     python3 tools/shoot.py out.png [--url "http://localhost:9081/?m=pump&layout=figure"] [--w 1440 --h 900] [--scale 2]
                            [--js "window.__sheet.jumpTo(345)"] [--wait 3] [--browser webkit|chromium]

@@ -1,5 +1,5 @@
 {
-  "name": "drafting-sheet-skill",
-  "version": "1.0.0",
+  "name": "inkworks-skill",
+  "version": "1.1.0",
   "description": "An agent skill for interactive 3D how-it-works pages in a white engineering-drawing style: ink-outlined three.js machines you can slow down, step, scrub and orbit, with numbered labels, live readouts and a cycle chart. Ships an engine and a bike pump, plus a 60 fps walkthrough-clip recorder."
 }

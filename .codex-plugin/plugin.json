@@ -1,13 +1,13 @@
 {
-  "name": "drafting-sheet-skill",
-  "version": "1.0.0",
+  "name": "inkworks-skill",
+  "version": "1.1.0",
   "description": "An agent skill for interactive 3D how-it-works pages in a white engineering-drawing style: ink-outlined three.js machines you can slow down, step, scrub and orbit, with numbered labels, live readouts and a cycle chart. Ships an engine and a bike pump, plus a 60 fps walkthrough-clip recorder.",
   "author": {
     "name": "exploraX",
     "url": "https://x.com/exploraX_"
   },
-  "homepage": "https://github.com/Moh4696/drafting-sheet-skill",
-  "repository": "https://github.com/Moh4696/drafting-sheet-skill",
+  "homepage": "https://github.com/Moh4696/inkworks-skill",
+  "repository": "https://github.com/Moh4696/inkworks-skill",
   "license": "MIT",
   "keywords": [
     "skills",
@@ -22,16 +22,16 @@
   ],
   "skills": "./skills/",
   "interface": {
-    "displayName": "Drafting Sheet Skill",
+    "displayName": "Inkworks",
     "shortDescription": "Interactive 3D how-it-works pages in an engineering-drawing style.",
     "longDescription": "An agent skill for interactive 3D how-it-works pages in a white engineering-drawing style: ink-outlined three.js machines you can slow down, step, scrub and orbit, with numbered labels, live readouts and a cycle chart. Ships an engine and a bike pump, plus a 60 fps walkthrough-clip recorder.",
     "developerName": "exploraX",
     "category": "Design",
     "capabilities": [],
-    "websiteURL": "https://github.com/Moh4696/drafting-sheet-skill",
+    "websiteURL": "https://github.com/Moh4696/inkworks-skill",
     "defaultPrompt": [
       "Make an interactive 3D page that shows how a car engine works.",
-      "Build a drafting-sheet explainer of how a pin tumbler lock opens.",
+      "Build an Inkworks explainer of how a pin tumbler lock opens.",
       "Show how a two-stroke engine works in 3D, figure layout, and record a clip."
     ]
   }
