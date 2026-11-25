@@ -29,7 +29,7 @@ jobs:
           test ! -e "$HOME/.claude/skills/inkworks"
 
   pages:
-    # serves the kit and drives every control of every mechanism in both layouts (headless Chromium, SwiftShader WebGL)
+    # serves the kit and drives every control of every assembly in both layouts (headless Chromium, SwiftShader WebGL)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -40,26 +40,26 @@ jobs:
         run: |
           pip install -q "playwright>=1.45"
           python -m playwright install --with-deps chromium
-      - name: Scaffold a project, serve it, smoke-test all mechanisms
+      - name: Scaffold a project, serve it, smoke-test all assemblies
         run: |
           P="$RUNNER_TEMP/proj"
-          python skills/inkworks/scripts/new_project.py "$P" --name lock --from starter
+          python skills/inkworks/scripts/new_project.py "$P" --name demo --from starter
           (cd "$P" && python serve.py 9081 > /dev/null 2>&1 &)
           sleep 2
-          for m in lock examples/engine examples/pump examples/regen; do
-            echo "== $m"
-            python "$P/tools/smoke.py" --browser chromium --url "http://localhost:9081/?m=$m" --sizes 1440x900,390x844
+          for a in demo examples/starter; do
+            echo "== $a"
+            python "$P/tools/smoke.py" --browser chromium --url "http://localhost:9081/?a=$a" --sizes 1440x900,390x844
           done
-          for t in drafting blueprint patent creo; do
-            echo "== examples/regen theme=$t"
-            python "$P/tools/smoke.py" --browser chromium --url "http://localhost:9081/?m=examples/regen&theme=$t" --sizes 1440x900
+          for t in creo drafting blueprint patent; do
+            echo "== examples/starter theme=$t"
+            python "$P/tools/smoke.py" --browser chromium --url "http://localhost:9081/?a=examples/starter&theme=$t" --sizes 1440x900
           done
       - name: Stills
         if: always()
         run: |
           P="$RUNNER_TEMP/proj"; mkdir -p "$RUNNER_TEMP/stills"
-          for m in examples/engine examples/pump; do for l in sheet figure; do
-            python "$P/tools/shoot.py" --browser chromium "$RUNNER_TEMP/stills/$(basename $m)-$l.png" --url "http://localhost:9081/?m=$m&layout=$l" --wait 3 || true
+          for a in examples/starter demo; do for l in sheet figure; do
+            python "$P/tools/shoot.py" --browser chromium "$RUNNER_TEMP/stills/$(basename $a)-$l.png" --url "http://localhost:9081/?a=$a&layout=$l" --wait 3 || true
           done; done
       - uses: actions/upload-artifact@v4
         if: always()
