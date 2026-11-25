@@ -1,113 +1,118 @@
 /* =========================================================================
-   Inkworks themes: the one place a page's colours, fonts and 3D materials live.
-   Pick with ?theme=<id>, else <body data-theme>, else 'drafting'.
-   Resolved before any mechanism loads, so HUES (from kit.js) already carry the theme
-   when a mechanism captures them at import time. That is also why a mechanism cannot
-   pick its own theme: set data-theme in index.html (new_project.py --theme) instead.
+   Inkworks themes. A theme is a DESIGN.md (the impeccable / Stitch format: YAML
+   frontmatter tokens + prose), so impeccable can write, critique and polish it.
+     ?theme=<id>  ->  themes/<id>.md        (built-ins: drafting, blueprint, patent, creo)
+     ?theme=project or <body data-theme="project">  ->  ./DESIGN.md   (a project's own)
+   else <body data-theme>, else 'drafting'. drafting.md is always loaded as the base,
+   so a theme only needs the keys it changes. Token keys: references/themes.md.
 
-   Each theme:
-     css    CSS custom properties written onto :root (sheet.css only reads variables)
-     fonts  Google Fonts css2 query, injected as one <link>
-     hues   the four phase hues; keep one meaning per hue across the page
-     accent redline, needle, timing marks, headline <em>
-     mat    3D toon materials (same keys as kit.M) and glass opacity
-     ghost  hidden-line housing fill colour and opacity
+   Resolved with top-level await before any mechanism loads, so HUES (kit.js) already
+   carry the theme when a mechanism captures them at import time.
    ========================================================================= */
 
-const DRAFTING = {
-  label: 'Drafting sheet',
+/** Frontmatter of a DESIGN.md: nested maps of scalars, which is all the format uses. */
+export function parseFrontmatter(text) {
+  const m = /^---\r?\n([\s\S]*?)\r?\n---/.exec(text);
+  const root = {};
+  if (!m) return root;
+  const stack = [{ indent: -1, obj: root }];
+  for (const raw of m[1].split(/\r?\n/)) {
+    const line = raw.replace(/\s+#(?=[^"']*$).*$/, '');   // trailing comment, not a quoted "#hex"
+    if (!line.trim() || line.trim().startsWith('#')) continue;
+    const kv = /^(\s*)([^:]+?):\s*(.*)$/.exec(line);
+    if (!kv) continue;
+    const indent = kv[1].length;
+    while (indent <= stack[stack.length - 1].indent) stack.pop();
+    const parent = stack[stack.length - 1].obj;
+    const key = kv[2].trim().replace(/^["']|["']$/g, '');
+    if (kv[3] === '') { parent[key] = {}; stack.push({ indent, obj: parent[key] }); continue; }
+    const v = kv[3].trim();
+    parent[key] = /^["'].*["']$/.test(v) ? v.slice(1, -1) : (v !== '' && !isNaN(+v) ? +v : v);
+  }
+  return root;
+}
+
+/** "rgba(r, g, b, a)" -> ['#rrggbb', a]; hex passes through with the default opacity. */
+function splitAlpha(c, a = 1) {
+  const m = /rgba?\(\s*(\d+)[\s,]+(\d+)[\s,]+(\d+)(?:[\s,/]+([\d.]+))?\s*\)/.exec(c);
+  if (!m) return [c, a];
+  return ['#' + [m[1], m[2], m[3]].map((n) => (+n).toString(16).padStart(2, '0')).join(''), m[4] != null ? +m[4] : a];
+}
+
+/** One Google Fonts css2 URL per family (a non-Google family then fails alone). Italic for the display family. */
+function fontUrls(typo) {
+  const fam = new Map();
+  for (const [role, t] of Object.entries(typo)) {
+    if (!t?.fontFamily) continue;
+    const name = t.fontFamily.split(',')[0].trim().replace(/^["']|["']$/g, '');
+    const f = fam.get(name) || { w: new Set(), ital: false };
+    f.w.add(+(t.fontWeight || 400));
+    if (role === 'display') f.ital = true;
+    fam.set(name, f);
+  }
+  return [...fam].map(([name, f]) => {
+    const w = [...f.w].sort((a, b) => a - b);
+    const axis = f.ital ? `ital,wght@${[...w.map((x) => `0,${x}`), ...w.map((x) => `1,${x}`)].join(';')}` : `wght@${w.join(';')}`;
+    return `https://fonts.googleapis.com/css2?family=${name.replace(/ /g, '+')}:${axis}&display=swap`;
+  });
+}
+
+async function load(url) {
+  const r = await fetch(url, { cache: 'no-store' });
+  if (!r.ok) throw new Error(`${url}: HTTP ${r.status}`);
+  return parseFrontmatter(await r.text());
+}
+
+const base = new URL('../themes/', import.meta.url);
+const asked = new URLSearchParams(location.search).get('theme') || document.body.dataset.theme || 'drafting';
+const id = /^[a-z0-9-]+$/i.test(asked) ? asked : 'drafting';
+const fallback = await load(new URL('drafting.md', base));
+let fm = fallback;
+if (id !== 'drafting') {
+  try { fm = await load(id === 'project' ? new URL('DESIGN.md', document.baseURI) : new URL(`${id}.md`, base)); }
+  catch (e) { console.warn(`Inkworks theme '${id}' not loaded, using drafting.`, e.message); }
+}
+const missing = Object.keys(fallback.colors).filter((k) => !(k in (fm.colors || {})));
+if (fm !== fallback && missing.length) console.warn(`Inkworks theme '${id}' has no ${missing.join(', ')}; using drafting values.`);
+
+const c = { ...fallback.colors, ...fm.colors };
+const ft = fallback.typography;
+const ty = fm.typography ? { display: ft.display, body: ft.body, mono: ft.mono, ...fm.typography } : ft;   // extra roles only add font weights
+const [glass, glassOpacity] = splitAlpha(c['mat-glass'], 0.26);
+const [ghostFill, ghostOpacity] = splitAlpha(c['ghost-fill'], 0.035);
+
+export const themeId = id;
+export const theme = {
+  label: fm.name || id,
   css: {
-    '--paper': '#f8f9fb', '--desk': '#e7ebf1',
-    '--ink': '#161b26', '--ink-2': '#4a5263', '--ink-3': '#8a93a3',
-    '--rule': '#cfd6e0', '--rule-soft': '#e4e9f0',
-    '--grid': 'rgba(70, 110, 160, .06)', '--grid-major': 'rgba(70, 110, 160, .11)',
-    '--sans': '"Geist", "Helvetica Neue", system-ui, sans-serif',
-    '--mono': '"Geist Mono", ui-monospace, Menlo, monospace',
-    '--serif': '"Instrument Serif", "Iowan Old Style", Georgia, serif',
+    '--paper': c.paper, '--desk': c.desk,
+    '--ink': c.ink, '--ink-2': c['ink-2'], '--ink-3': c['ink-3'],
+    '--rule': c.rule, '--rule-soft': c['rule-soft'],
+    '--grid': c.grid, '--grid-major': c['grid-major'],
+    '--serif': ty.display.fontFamily, '--sans': ty.body.fontFamily, '--mono': ty.mono.fontFamily,
   },
-  fonts: 'family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1',
-  hues: { blue: '#2f7de1', ochre: '#d98e04', red: '#e5482f', grey: '#7b8494' },
-  accent: '#e5482f',
-  mat: { steel: '#c3ccd8', alloy: '#eef1f5', dark: '#a4afbe', valve: '#dde3ec', ceramic: '#ffffff', rubber: '#8f98a7', copper: '#d39a63', glass: '#8dbcf2', glassOpacity: 0.26 },
-  ghost: { fill: '#6b8ab0', opacity: 0.035 },
+  hues: { blue: c['hue-blue'], ochre: c['hue-ochre'], red: c['hue-red'], grey: c['hue-grey'] },
+  accent: c.accent,
+  mat: {
+    steel: c['mat-steel'], alloy: c['mat-alloy'], dark: c['mat-dark'], valve: c['mat-valve'],
+    ceramic: c['mat-ceramic'], rubber: c['mat-rubber'], copper: c['mat-copper'], glass, glassOpacity,
+  },
+  ghost: { fill: ghostFill, opacity: ghostOpacity },
+  fonts: fontUrls(ty),
 };
 
-export const THEMES = {
-  drafting: DRAFTING,
-
-  // the engine page's original look: white ink on cyanotype navy
-  blueprint: {
-    label: 'Blueprint',
-    css: {
-      '--paper': '#123a6d', '--desk': '#0c2a52',
-      '--ink': '#eaf2ff', '--ink-2': '#bccde9', '--ink-3': '#86a0c8',
-      '--rule': '#3f6699', '--rule-soft': '#2a5186',
-      '--grid': 'rgba(220, 235, 255, .07)', '--grid-major': 'rgba(220, 235, 255, .15)',
-      '--sans': '"Archivo", "Helvetica Neue", system-ui, sans-serif',
-      '--mono': '"JetBrains Mono", ui-monospace, Menlo, monospace',
-      '--serif': '"Archivo Narrow", "Archivo", system-ui, sans-serif',
-    },
-    fonts: 'family=Archivo:wght@400;500;600&family=Archivo+Narrow:ital,wght@0,500;1,500&family=JetBrains+Mono:wght@400;500',
-    hues: { blue: '#63c7ff', ochre: '#ffc24a', red: '#ff6f5c', grey: '#a6b6d0' },
-    accent: '#ff6f5c',
-    mat: { steel: '#2f5a94', alloy: '#4573b0', dark: '#244c82', valve: '#3b67a3', ceramic: '#5a88c4', rubber: '#1e4275', copper: '#c48a52', glass: '#9fd6ff', glassOpacity: 0.16 },
-    ghost: { fill: '#dbe8ff', opacity: 0.05 },
-  },
-
-  // 19th century patent drawing: sepia ink on ivory, engraved serif
-  patent: {
-    label: 'Patent drawing',
-    css: {
-      '--paper': '#f5eedc', '--desk': '#e4d8bb',
-      '--ink': '#33251a', '--ink-2': '#5c4a38', '--ink-3': '#978369',
-      '--rule': '#d5c6a4', '--rule-soft': '#e7dcc3',
-      '--grid': 'rgba(120, 90, 50, .05)', '--grid-major': 'rgba(120, 90, 50, .1)',
-      '--sans': '"Libre Caslon Text", Georgia, serif',
-      '--mono': '"Courier Prime", "Courier New", monospace',
-      '--serif': '"IM Fell English", "Libre Caslon Text", Georgia, serif',
-    },
-    fonts: 'family=IM+Fell+English:ital@0;1&family=Libre+Caslon+Text:wght@400;700&family=Courier+Prime',
-    hues: { blue: '#3d6e8c', ochre: '#b7832b', red: '#a63f2a', grey: '#8b7e69' },
-    accent: '#a63f2a',
-    mat: { steel: '#d9ccb0', alloy: '#f3ebd8', dark: '#c3b393', valve: '#e7dcc5', ceramic: '#fcf7ea', rubber: '#b2a181', copper: '#c99158', glass: '#9cb9c2', glassOpacity: 0.22 },
-    ghost: { fill: '#8a6d45', opacity: 0.04 },
-  },
-
-  // Creo Parametric graphics window: grey shaded solids on the light blue-grey viewport,
-  // sketch cyan, PTC green for the active feature, red for cuts
-  creo: {
-    label: 'Creo',
-    css: {
-      '--paper': '#eef2f7', '--desk': '#d7dfe9',
-      '--ink': '#1d2733', '--ink-2': '#4b5869', '--ink-3': '#8693a4',
-      '--rule': '#c5cfdb', '--rule-soft': '#dde4ed',
-      '--grid': 'rgba(40, 90, 150, .045)', '--grid-major': 'rgba(40, 90, 150, .085)',
-      '--sans': '"IBM Plex Sans", "Segoe UI", system-ui, sans-serif',
-      '--mono': '"IBM Plex Mono", Consolas, monospace',
-      '--serif': '"IBM Plex Sans Condensed", "IBM Plex Sans", system-ui, sans-serif',
-    },
-    fonts: 'family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Condensed:ital,wght@0,500;1,500&family=IBM+Plex+Mono:wght@400;500',
-    hues: { blue: '#0f9bd7', ochre: '#4caf3e', red: '#d8443a', grey: '#7c8898' },
-    accent: '#4caf3e',
-    mat: { steel: '#b7bec8', alloy: '#d6dbe2', dark: '#9aa3b0', valve: '#c7cdd5', ceramic: '#eceff3', rubber: '#8c95a2', copper: '#c78f5c', glass: '#8cc4ec', glassOpacity: 0.24 },
-    ghost: { fill: '#4d7fb3', opacity: 0.04 },
-  },
-};
-
-const q = new URLSearchParams(location.search).get('theme');
-export const themeId = THEMES[q] ? q : THEMES[document.body.dataset.theme] ? document.body.dataset.theme : 'drafting';
-export const theme = THEMES[themeId];
-
-/** Ink at an alpha, for canvas and SVG strokes that used to hard-code rgba(22,27,38,a). */
+/** Ink at an alpha, for canvas and SVG strokes. The ink token must be #rrggbb. */
 export function inkA(a) {
   const h = theme.css['--ink'];
   return `rgba(${parseInt(h.slice(1, 3), 16)}, ${parseInt(h.slice(3, 5), 16)}, ${parseInt(h.slice(5, 7), 16)}, ${a})`;
 }
 
-const root = document.documentElement.style;
-for (const [k, v] of Object.entries({ ...theme.css, '--in': theme.hues.blue, '--co': theme.hues.ochre, '--pw': theme.accent, '--ex': theme.hues.grey })) root.setProperty(k, v);
-document.body.dataset.theme = themeId;
-const link = document.createElement('link');
-link.rel = 'stylesheet';
-link.href = `https://fonts.googleapis.com/css2?${theme.fonts}&display=swap`;
-document.head.appendChild(link);
+const rootStyle = document.documentElement.style;
+for (const [k, v] of Object.entries({ ...theme.css, '--in': theme.hues.blue, '--co': theme.hues.ochre, '--pw': theme.accent, '--ex': theme.hues.grey })) rootStyle.setProperty(k, v);
+document.body.dataset.theme = id;
+for (const href of theme.fonts) {
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = href;
+  document.head.appendChild(link);
+}

@@ -1,6 +1,6 @@
 # The look
 
-An Inkworks page is a technical drawing that happens to move. These are the values of the default `drafting` theme; every theme in `kit/js/theme.js` sets the same tokens (the CSS defaults on `:root` in `kit/css/sheet.css` are only a fallback). The rules below hold in every theme: one meaning per hue, ink outlines, no shadows, nothing that disappears against the paper.
+An Inkworks page is a technical drawing that happens to move. These are the values of the default theme, `kit/themes/drafting.md`; every theme sets the same tokens (`references/themes.md`). The rules below hold in every theme: one meaning per hue, ink outlines, no shadows, nothing that disappears against the paper.
 
 ## Paper and ink
 
@@ -8,7 +8,7 @@ An Inkworks page is a technical drawing that happens to move. These are the valu
 | --- | --- | --- |
 | `--paper` | `#f8f9fb` | Sheet and card background |
 | `--ink` | `#161b26` | Text, rules, outlines, filled buttons |
-| `--ink-2` / `--ink-3` | `#4a5263` / `#8a93a3` | Body text / hints, axis labels |
+| `--ink-2` / `--ink-3` | `#4a5263` / `#687082` | Body text / hints, axis labels (`ink-3` clears 4.5:1 on the paper) |
 | `--rule` / `--rule-soft` | `#cfd6e0` / `#e4e9f0` | Borders / readout separators |
 | Grid | `rgba(70,110,160,.06)` every 20px, `.11` every 100px | The paper |
 

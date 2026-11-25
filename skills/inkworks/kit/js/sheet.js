@@ -42,7 +42,7 @@ export function createSheet(mech, { layout: forcedLayout } = {}) {
   (mech.layers || []).forEach((l) => { layers[l.key] = l.on !== false; });
   const state = {
     theta: mech.start ?? 0,        // the ONE driver variable: cycle degrees, unbounded
-    playing: !reduceMotion,
+    playing: !reduceMotion && q.get('play') !== '0',   // ?play=0 starts paused (stills, design scans, embeds)
     input: D.input,                // 0..1 from the slider
     rate: D.start ?? D.target(D.input),
     slow: mech.speed ?? mech.speeds[1] ?? mech.speeds[0],

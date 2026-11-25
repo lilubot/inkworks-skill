@@ -2,9 +2,13 @@
 
 ## Unreleased
 
-- Themes: `kit/js/theme.js` holds every colour, font and 3D material. Four themes: `drafting` (default, unchanged look), `blueprint`, `patent`, `creo`. Pick with `?theme=`, `<body data-theme>` or `new_project.py --theme`. The gauge, plot, chart, leaders and 3D materials no longer hard-code colours or fonts; fonts load from the theme.
+- Themes are `DESIGN.md` files in the impeccable / Stitch format (`kit/themes/*.md`), read at load by `kit/js/theme.js`. Four built-ins: `drafting` (default), `blueprint`, `patent`, `creo`. A project's own `DESIGN.md` is its theme (`new_project.py --theme` copies one in), so impeccable commands edit the page's look directly. Pick with `?theme=`. The gauge, plot, chart, leaders and 3D materials no longer hard-code colours or fonts; fonts load per family from the theme's typography.
+- `kit/tools/design_check.sh` runs impeccable's detector per theme at desktop and phone width; `kit/.impeccable/config.json` keeps the justified ignores. See `references/themes.md`.
+- Accessibility: hint text (`ink-3`) darkened to clear 4.5:1; phase hues and the accent are mixed toward the ink wherever they are text; labels, block heads, title block and balloon numbers are at least 11px. The drafting look shifts slightly as a result.
+- `?play=0` starts the page paused.
 - Callouts take an optional `show(state)` to hide a label while its part does not exist yet.
 - Phase list wraps to two rows past five phases; the chart key merges phases that share a colour and key.
+- The pump's gauge face and needle follow the theme.
 - New example mechanism `regen`: a parametric feature tree rebuilding a flanged hub.
 
 ## 1.1.0 (2026-11-25)

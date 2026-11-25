@@ -102,6 +102,7 @@ The layout centres `target` in the free area between the panels (or inside the c
 
 - `?m=pump` picks a mechanism file (`?m=examples/engine` inside a scaffolded project).
 - `?layout=figure` or `?layout=sheet` overrides the layout.
-- `?theme=drafting|blueprint|patent|creo` overrides the theme (else `<body data-theme>`, else `drafting`). See `kit/js/theme.js`.
+- `?theme=<id>` loads `themes/<id>.md`; `?theme=project` loads the page's own `DESIGN.md` (else `<body data-theme>`, else `drafting`). See `references/themes.md`.
+- `?play=0` starts paused (stills, design scans, embeds).
 - `window.__sheet` = `{ state, model, mech, kit, api, setFocus, jumpTo, setPlaying, layout }` for scripted shots, the recorder and the console.
 - Keyboard: Space plays and pauses, the left and right arrows step one phase.

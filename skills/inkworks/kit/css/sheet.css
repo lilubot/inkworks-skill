@@ -4,7 +4,7 @@
   --paper: #f8f9fb;
   --ink: #161b26;
   --ink-2: #4a5263;
-  --ink-3: #8a93a3;
+  --ink-3: #687082;
   --rule: #cfd6e0;
   --rule-soft: #e4e9f0;
   --grid: rgba(70, 110, 160, .06);
@@ -66,8 +66,8 @@ button { font: inherit; color: inherit; }
   display: flex; align-items: center; gap: 6px; transition: opacity .25s;
 }
 .callout .bn {
-  width: 19px; height: 19px; border-radius: 50%; border: 1.2px solid var(--ink);
-  display: grid; place-items: center; font: 500 9.5px/1 var(--mono); background: var(--paper);
+  width: 21px; height: 21px; border-radius: 50%; border: 1.2px solid var(--ink);
+  display: grid; place-items: center; font: 500 11px/1 var(--mono); letter-spacing: -.04em; background: var(--paper);
 }
 .callout .nm { background: color-mix(in srgb, var(--paper) 85%, transparent); padding: 2px 3px; }
 .callout.left { flex-direction: row-reverse; }
@@ -93,7 +93,7 @@ button { font: inherit; color: inherit; }
 }
 .fig-tag { display: flex; align-items: baseline; gap: 12px; font: 400 11px/1 var(--mono); color: var(--ink-2); letter-spacing: .04em; }
 .fig-tag b { font: 500 11px/1 var(--mono); color: var(--paper); background: var(--ink); padding: 5px 7px; letter-spacing: .08em; text-transform: uppercase; }
-.lbl { font: 400 10.5px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); }
+.lbl { font: 400 11px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); }
 .toggles { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
 .tog {
   background: none; border: 0; padding: 4px 0; cursor: pointer; display: flex; align-items: center; gap: 7px;
@@ -108,13 +108,14 @@ button { font: inherit; color: inherit; }
 
 .masthead { grid-column: 1; grid-row: 2; pointer-events: none; }
 h1 { font: 400 40px/1 var(--serif); letter-spacing: -.01em; margin: 4px 0 10px; text-wrap: balance; }
-h1 em { font-style: italic; color: var(--pw); }
+/* phase hues and the accent are fill colours; as text they are pulled toward the ink so they clear 4.5:1 on any theme */
+h1 em { font-style: italic; color: color-mix(in oklab, var(--pw) 62%, var(--ink)); }
 .lede { margin: 0; font-size: 14px; line-height: 1.45; color: var(--ink-2); }
 
 /* ---------- blocks: datasheet sections, heavy top rule, no box ---------- */
 .block { position: relative; background: color-mix(in srgb, var(--paper) 90%, transparent); border-top: 2px solid var(--ink); padding-top: 10px; }
 .block-head {
-  font: 400 10.5px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2);
+  font: 400 11px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2);
   display: flex; align-items: center; gap: 8px; margin-bottom: 12px; min-height: 22px;
 }
 .ph-n {
@@ -125,9 +126,9 @@ h1 em { font-style: italic; color: var(--pw); }
 /* stroke block */
 .phase-panel { grid-column: 1; grid-row: 3; align-self: start; overflow: auto; max-height: 100%; }
 .phase-now { display: flex; align-items: center; gap: 14px; }
-.phase-num { font: italic 400 56px/.8 var(--serif); color: var(--accent, var(--in)); min-width: 52px; transition: color .3s; }
+.phase-num { font: italic 400 56px/.8 var(--serif); color: color-mix(in oklab, var(--accent, var(--in)) 62%, var(--ink)); min-width: 52px; transition: color .3s; }
 .phase-name { font: 400 31px/1 var(--serif); }
-.phase-nick { font: 400 12px/1.3 var(--mono); color: var(--accent, var(--in)); margin-top: 4px; transition: color .3s; }
+.phase-nick { font: 400 12px/1.3 var(--mono); color: color-mix(in oklab, var(--accent, var(--in)) 62%, var(--ink)); margin-top: 4px; transition: color .3s; }
 .phase-text { font-size: 13px; line-height: 1.45; color: var(--ink-2); margin: 10px 0; min-height: 76px; }
 .phase-list { list-style: none; padding: 0; margin: 0 0 8px; display: grid; gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
 .phase-list li {
@@ -143,8 +144,8 @@ h1 em { font-style: italic; color: var(--pw); }
 .readout div { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid var(--rule-soft); padding: 5px 0; }
 .readout dt { font-size: 12.5px; color: var(--ink-2); }
 .readout dd { margin: 0; font: 500 12px/1 var(--mono); font-variant-numeric: tabular-nums; }
-.readout dd.on { color: var(--in); }
-.readout dd.hot { color: var(--pw); }
+.readout dd.on { color: color-mix(in oklab, var(--in) 62%, var(--ink)); }
+.readout dd.hot { color: color-mix(in oklab, var(--pw) 62%, var(--ink)); }
 
 .seg { display: flex; border: 1px solid var(--ink); }
 .seg button { background: transparent; border: 0; padding: 7px 11px; cursor: pointer; font: 500 12px/1 var(--mono); color: var(--ink-2); }
@@ -214,7 +215,7 @@ input[type=range]:focus-visible { outline: 2px solid var(--in); outline-offset: 
   margin-top: auto; flex: none;
   border: 1.5px solid var(--ink); background: var(--paper); font-family: var(--mono);
 }
-.title-block span { display: block; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 4px; }
+.title-block span { display: block; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 4px; }
 .title-block b { font-weight: 500; font-size: 12px; }
 .tb-main { padding: 7px 10px; border-bottom: 1px solid var(--ink); display: flex; align-items: baseline; justify-content: space-between; }
 .tb-main span { margin: 0; }
@@ -272,8 +273,8 @@ input[type=range]:focus-visible { outline: 2px solid var(--in); outline-offset: 
   .chart-panel .block-head { flex-wrap: wrap; }
   h1 { font-size: 38px; }
   .phase-text { min-height: 0; }
-  .callout { font-size: 10.5px; }
-  .callout .bn { width: 17px; height: 17px; font-size: 9px; }
+  .callout { font-size: 11px; }
+  .callout .bn { width: 20px; height: 20px; font-size: 11px; }
 }
 
 /* ---------- action buttons (mechanism extras, e.g. "Let air out") ---------- */
@@ -315,7 +316,7 @@ body[data-layout="figure"] .stage { position: fixed; inset: 0; height: auto; z-i
   display: inline-flex; align-items: baseline; gap: 6px; margin-top: 8px; padding: 4px 8px;
   border: 1px solid var(--ink); background: var(--paper); font: 400 11px/1.2 var(--mono); color: var(--ink-2);
 }
-.chip b { font-weight: 500; color: var(--accent, var(--ink)); }
+.chip b { font-weight: 500; color: color-mix(in oklab, var(--accent, var(--ink)) 62%, var(--ink)); }
 .fig-title { text-align: right; }
 .fig-title h1 { font-size: 27px; margin: 0 0 8px; }
 .fig-foot { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }

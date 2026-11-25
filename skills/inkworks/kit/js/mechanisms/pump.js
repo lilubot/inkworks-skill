@@ -212,7 +212,7 @@ export default {
     gauge.rotation.x = 1.15;
     root.add(gauge);
     gauge.add(part(new THREE.CylinderGeometry(0.34, 0.34, 0.1, 40), M.dark));
-    const face = new THREE.Mesh(new THREE.CircleGeometry(0.29, 40).rotateX(-Math.PI / 2), new THREE.MeshBasicMaterial({ color: 0xffffff }));
+    const face = new THREE.Mesh(new THREE.CircleGeometry(0.29, 40).rotateX(-Math.PI / 2), new THREE.MeshBasicMaterial({ color: kit.theme.css['--paper'] }));
     face.position.y = 0.052;
     gauge.add(face);
     const ticks = [];
@@ -223,7 +223,7 @@ export default {
     gauge.add(new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(ticks), lineMat));
     const needle = new THREE.Group();
     needle.position.y = 0.058;
-    needle.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0, 0, 0), new THREE.Vector3(0.24, 0, 0)]), new THREE.LineBasicMaterial({ color: 0xe5482f })));
+    needle.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0, 0, 0), new THREE.Vector3(0.24, 0, 0)]), new THREE.LineBasicMaterial({ color: kit.theme.accent })));
     gauge.add(needle);
 
     /* ---------- air flow ---------- */

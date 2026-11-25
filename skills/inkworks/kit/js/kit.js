@@ -13,7 +13,7 @@ export const mod = (a, n) => ((a % n) + n) % n;
 export const clamp01 = (x) => Math.min(1, Math.max(0, x));
 export const smooth = (a, b, x) => { const t = clamp01((x - a) / (b - a)); return t * t * (3 - 2 * t); };
 
-export { theme, themeId, THEMES, inkA } from './theme.js';
+export { theme, themeId, inkA } from './theme.js';
 import { theme } from './theme.js';
 export const INK_HEX = theme.css['--ink'];
 export const PAPER_HEX = theme.css['--paper'];
