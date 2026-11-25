@@ -1,0 +1,592 @@
+{
+  "schema_version": "inkworks.engineering_intent.v1",
+  "product_identity": {
+    "division": "EMJAC",
+    "product_line": "CN",
+    "product_family": "Custom Chef & Large Counters",
+    "anchor_wo": "087837-032",
+    "description": "REF COUNTER",
+    "item_code": "A328",
+    "erp_sales_usd": 81348,
+    "asset_glb": "assets/counter_087837_032.glb",
+    "model_scale_in_per_unit": 24.0,
+    "nominal_envelope_in": {
+      "length": 168.0,
+      "depth": 36.0,
+      "worktop_height": 36.0,
+      "backsplash_height": 42.0,
+      "overshelf_height": 56.0,
+      "leg_height": 6.0,
+      "field_joint_x_from_left": 96.0
+    }
+  },
+  "manufacturing_scale": {
+    "issued_dxf_flats": 188,
+    "weld_series_count": 6,
+    "weld_series_distribution": {
+      "a": 26,
+      "b": 30,
+      "c": 25,
+      "d": 36,
+      "h": 1,
+      "j": 37,
+      "unseries": 33
+    },
+    "made_listing_rows": 274,
+    "bought_listing_rows": 17,
+    "creo_models_extracted": 769,
+    "creo_assemblies": 141,
+    "creo_skeletons": 44,
+    "dominant_finish_substrate": "ss_304_no4",
+    "buyout_attribution": "wo_direct",
+    "top_made_part_roles": {
+      "INSUL": 74,
+      "LEG": 52,
+      "STRINGER": 46,
+      "BACK UP": 37,
+      "PARTITION": 29,
+      "APRON": 28,
+      "COUNTER CHANNEL": 27,
+      "WASHER": 24,
+      "TOP TUBE": 23,
+      "END": 20
+    }
+  },
+  "evidence_governance": {
+    "recipe_version": "v2.1",
+    "train_wos": 60,
+    "train_distinct_sos": 52,
+    "dev_held_out_wos": 17,
+    "locked_test_reads": 0,
+    "promotion_bar": ">=10 distinct SOs AND >=90% agreement",
+    "verified_standards_count": 27,
+    "provisional_standards_count": 4,
+    "median_estimated_labor_hrs": 501.8,
+    "corpus_validation": {
+      "train_loo_sm_gauge_acc": "1169/1197 (97.7%)",
+      "train_loo_role_finish_acc": "1130/1197 (94.4%)",
+      "train_loo_buyout_wo_f1": 0.761,
+      "train_loo_multi_series_acc": "47/60 (78.3%)",
+      "dev_sm_gauge_acc": "244/264 (92.4%, 0 TOP misses)",
+      "dev_job_finish_acc": "17/17 (100.0%)",
+      "dev_buyout_wo_precision": 0.768,
+      "dev_buyout_wo_f1": 0.703,
+      "dev_dxf_mae": 35.6,
+      "dev_made_rows_mae": 24.3
+    }
+  },
+  "locked_standards": {
+    "physics_and_sheet_laws": {
+      "top_sheet_ceiling": {
+        "rule_id": "LAW-TOP-144",
+        "status": "locked",
+        "max_sheet_in": 144.0,
+        "field_joint_trigger_in": 138.0,
+        "measured_top_flats": 153,
+        "max_observed_in": 144.92,
+        "flats_within_ceiling": "152/153",
+        "multi_series_split_rate": "35/52 SOs (67.3%)",
+        "median_series_when_split": 4.0,
+        "node_ids": ["sub_top_envelope", "part_top_field_joint", "part_top_left", "part_top_right"]
+      },
+      "magnetic_430_law": {
+        "rule_id": "LAW-MAG-430",
+        "status": "locked",
+        "physics": "Austenitic 304 is non-magnetic; ferritic 18ga 430 (ERP 8285) is mandatory on all magnetic gasket & removable panel mating faces.",
+        "door_front": {
+          "gauge": "18ga",
+          "substrate": "ss_304_no4",
+          "erp_code": "8041-4",
+          "agreement": "32/32 (100.0%)"
+        },
+        "door_back": {
+          "gauge": "18ga",
+          "substrate": "ss_430",
+          "erp_code": "8285",
+          "agreement": "32/32 (100.0%)"
+        },
+        "gasket_frame": {
+          "gauge": "18ga",
+          "substrate": "ss_430",
+          "erp_code": "8285",
+          "agreement": "17/17 (100.0%)"
+        },
+        "mullion_front": {
+          "gauge": "18ga",
+          "substrate": "ss_430",
+          "erp_code": "8285",
+          "agreement": "16/16 (100.0%)"
+        },
+        "mullion_backup": {
+          "gauge": "20ga",
+          "substrate": "ss_304_mill",
+          "agreement": "25/25 (100.0%)"
+        },
+        "node_ids": [
+          "sub_doors_mag430",
+          "part_ref_door_l_back_430",
+          "part_ref_door_r_back_430",
+          "part_gasket_frame_430",
+          "part_mullion_front_430",
+          "part_mullion_bu_20ga"
+        ]
+      }
+    },
+    "role_gauge_matrix": {
+      "TOP": {
+        "type": "SM",
+        "gauge": "14ga",
+        "thickness_in": 0.075,
+        "erp_code": "8012-4",
+        "erp_desc": "SHEET SS 14 GA - 304 - 4",
+        "substrate": "ss_304_no4",
+        "so_support": "41/52 (78.8%)",
+        "gauge_agreement": "40/41 (97.6%)",
+        "finish_agreement": "40/41 (97.6%)",
+        "median_qty": 2.0,
+        "rule_status": "verified_standard",
+        "node_ids": ["sub_top_envelope", "part_top_left", "part_top_right", "part_top_backsplash"]
+      },
+      "END": {
+        "type": "SM",
+        "gauge": "18ga",
+        "thickness_in": 0.05,
+        "erp_code": "8041-4",
+        "erp_desc": "SHEET SS 18 GA - 304 - 4",
+        "substrate": "ss_304_no4",
+        "so_support": "42/52 (80.8%)",
+        "gauge_agreement": "42/42 (100.0%)",
+        "finish_agreement": "42/42 (100.0%)",
+        "median_qty": 6.0,
+        "rule_status": "verified_standard",
+        "node_ids": ["part_base_end_left", "part_base_end_right", "part_base_wrapper_back"]
+      },
+      "APRON": {
+        "type": "SM",
+        "gauge": "18ga",
+        "thickness_in": 0.05,
+        "erp_code": "8041-4",
+        "erp_desc": "SHEET SS 18 GA - 304 - 4",
+        "substrate": "ss_304_no4",
+        "so_support": "44/52 (84.6%)",
+        "gauge_agreement": "43/44 (97.7%)",
+        "finish_agreement": "44/44 (100.0%)",
+        "median_qty": 7,
+        "rule_status": "verified_standard",
+        "node_ids": ["sub_apron_1043", "part_apron_fascia", "part_apron_light_valance"]
+      },
+      "ACCESS_PANEL": {
+        "type": "SM",
+        "gauge": "18ga",
+        "thickness_in": 0.05,
+        "erp_code": "8041-4",
+        "substrate": "ss_304_no4",
+        "so_support": "29/52 (55.8%)",
+        "gauge_agreement": "29/29 (100.0%)",
+        "finish_agreement": "27/29 (93.1%)",
+        "median_qty": 4,
+        "rule_status": "verified_standard",
+        "node_ids": ["part_apron_access_panel", "part_compressor_louver_1019"]
+      },
+      "LEG": {
+        "type": "SM_TUBE",
+        "gauge": "16ga",
+        "thickness_in": 0.06,
+        "od_in": 1.625,
+        "erp_code": "8300",
+        "erp_desc": "TUBING ROUND SS 1-5/8\" 16GA - 3",
+        "substrate": "ss_304_no4",
+        "so_support": "38/52 (73.1%)",
+        "gauge_agreement": "38/38 (100.0%)",
+        "finish_agreement": "38/38 (100.0%)",
+        "median_qty": 16,
+        "rule_status": "verified_standard",
+        "node_ids": ["part_base_legs_8300"]
+      },
+      "ANGLE": {
+        "type": "SM",
+        "gauge": "11ga",
+        "thickness_in": 0.12,
+        "erp_code": "8069-0",
+        "substrate": "ss_304_no4",
+        "so_support": "29/52 (55.8%)",
+        "gauge_agreement": "29/29 (100.0%)",
+        "finish_agreement": "28/29 (96.6%)",
+        "median_qty": 15.0,
+        "rule_status": "verified_standard",
+        "node_ids": ["part_base_angle_frame"]
+      },
+      "DOOR_FRONT": {
+        "type": "SM",
+        "gauge": "18ga",
+        "thickness_in": 0.05,
+        "erp_code": "8041-4",
+        "substrate": "ss_304_no4",
+        "so_support": "32/52 (61.5%)",
+        "gauge_agreement": "32/32 (100.0%)",
+        "finish_agreement": "32/32 (100.0%)",
+        "median_qty": 4.0,
+        "rule_status": "verified_standard",
+        "node_ids": ["part_ref_door_l_front", "part_ref_door_r_front", "part_amb_door_l_front", "part_amb_door_r_front"]
+      },
+      "DOOR_BACK": {
+        "type": "SM",
+        "gauge": "18ga",
+        "thickness_in": 0.05,
+        "erp_code": "8285",
+        "erp_desc": "SHEET SS 18 GA - 430 FERRITIC MAGNETIC",
+        "substrate": "ss_430",
+        "so_support": "32/52 (61.5%)",
+        "gauge_agreement": "32/32 (100.0%)",
+        "finish_agreement": "32/32 (100.0%)",
+        "median_qty": 4.0,
+        "rule_status": "verified_standard",
+        "node_ids": ["part_ref_door_l_back_430", "part_ref_door_r_back_430"]
+      },
+      "MULLION_BU": {
+        "type": "SM",
+        "gauge": "20ga",
+        "thickness_in": 0.035,
+        "erp_code": "8050-0",
+        "substrate": "ss_304_mill",
+        "so_support": "25/52 (48.1%)",
+        "gauge_agreement": "25/25 (100.0%)",
+        "finish_agreement": "25/25 (100.0%)",
+        "median_qty": 7.0,
+        "rule_status": "verified_standard",
+        "node_ids": ["part_mullion_bu_20ga"]
+      },
+      "SHELF": {
+        "type": "SM",
+        "gauge": "18ga",
+        "thickness_in": 0.05,
+        "erp_code": "8041-4",
+        "substrate": "ss_304_no4",
+        "so_support": "36/52 (69.2%)",
+        "gauge_agreement": "36/36 (100.0%)",
+        "finish_agreement": "36/36 (100.0%)",
+        "median_qty": 5.0,
+        "rule_status": "verified_standard",
+        "node_ids": ["sub_shelves_1020", "part_overshelf_deck", "part_interior_ref_shelf"]
+      },
+      "UNDERSHELF": {
+        "type": "SM",
+        "gauge": "18ga",
+        "thickness_in": 0.05,
+        "erp_code": "8041-4",
+        "substrate": "ss_304_no4",
+        "so_support": "22/52 (42.3%)",
+        "gauge_agreement": "22/22 (100.0%)",
+        "finish_agreement": "22/22 (100.0%)",
+        "median_qty": 8,
+        "rule_status": "verified_standard",
+        "node_ids": ["part_undershelf_sink_bay"]
+      },
+      "CHANNEL": {
+        "type": "SM",
+        "gauge": "14ga",
+        "thickness_in": 0.075,
+        "erp_code": "8012-4",
+        "substrate": "ss_304_no4",
+        "so_support": "29/52 (55.8%)",
+        "gauge_agreement": "28/29 (96.6%)",
+        "finish_agreement": "15/29 (51.7%)",
+        "median_qty": 4.0,
+        "rule_status": "verified_standard",
+        "node_ids": ["part_shelf_channels_14ga", "part_top_field_joint"]
+      },
+      "SINK_END": {
+        "type": "SM",
+        "gauge": "14ga",
+        "thickness_in": 0.075,
+        "erp_code": "8012-4",
+        "substrate": "ss_304_no4",
+        "so_support": "27/52 (51.9%)",
+        "gauge_agreement": "27/27 (100.0%)",
+        "finish_agreement": "27/27 (100.0%)",
+        "median_qty": 4,
+        "rule_status": "verified_standard",
+        "node_ids": ["sub_sink_1030", "part_sink_bowl_1030", "part_sink_ends_14ga"]
+      },
+      "EAR": {
+        "type": "SM",
+        "gauge": "14ga",
+        "thickness_in": 0.075,
+        "erp_code": "8012-4",
+        "substrate": "ss_304_no4",
+        "so_support": "24/52 (46.2%)",
+        "gauge_agreement": "24/24 (100.0%)",
+        "finish_agreement": "24/24 (100.0%)",
+        "median_qty": 2.0,
+        "rule_status": "verified_standard",
+        "node_ids": ["part_sink_ears_14ga"]
+      },
+      "BACK_WALL_AND_PARTITION": {
+        "type": "SM",
+        "gauge": "20ga",
+        "thickness_in": 0.035,
+        "substrate": "ss_304_no4",
+        "back_wall_agreement": "30/34 (88.2%)",
+        "partition_agreement": "20/24 (83.3%)",
+        "rule_status": "provisional_standard",
+        "node_ids": ["part_base_liner_20ga", "part_base_partitions_20ga"]
+      },
+      "INSUL": {
+        "type": "Non-SM",
+        "thickness_in": 1.0,
+        "substrate": "non_metal_ure",
+        "so_support": "20/52 (38.5%)",
+        "material_agreement": "19/20 (95.0%)",
+        "anchor_qty": 74,
+        "rule_status": "variant_branch",
+        "node_ids": ["part_base_insul_ure", "part_cold_pan_insul_8pc", "part_ref_door_l_insul", "part_ref_door_r_insul"]
+      }
+    },
+    "emjac_bend_table": {
+      "k_factor": 0.5,
+      "dominant_inside_radii_in": [0.03, 0.08],
+      "dominant_radii_share": ">84% of Counter bends",
+      "median_bends_per_part": 8.0,
+      "max_bends_per_part": 164,
+      "deductions": {
+        "SS-14-C02": {
+          "gauge": "14ga",
+          "thickness_in": 0.075,
+          "bend_deduction_in": 0.1302,
+          "n_obs": 278,
+          "so_range": ["75667", "84961"],
+          "pieces": "top (124), bracket (154)",
+          "flag": "ok"
+        },
+        "SS-14-C03": {
+          "gauge": "14ga",
+          "thickness_in": 0.075,
+          "bend_deduction_in": 0.14,
+          "n_obs": 13,
+          "so_range": ["84700", "85115"],
+          "flag": "ok"
+        },
+        "SS-16-R0.03": {
+          "gauge": "16ga",
+          "thickness_in": 0.06,
+          "radius_in": 0.03,
+          "bend_allowance_in": 0.06,
+          "bend_deduction_in": 0.12,
+          "n_obs": 736,
+          "so_range": ["83714", "91050"],
+          "flag": "ok"
+        },
+        "SS-16-C02": {
+          "gauge": "16ga",
+          "thickness_in": 0.06,
+          "bend_deduction_in": 0.11,
+          "n_obs": 171,
+          "so_range": ["78621", "84700"],
+          "flag": "ok"
+        },
+        "SS-18-C01": {
+          "gauge": "18ga",
+          "thickness_in": 0.05,
+          "bend_deduction_in": 0.096,
+          "n_obs": 67,
+          "so_range": ["79988", "84620"],
+          "flag": "ok"
+        },
+        "SS-18-C02": {
+          "gauge": "18ga",
+          "thickness_in": 0.05,
+          "bend_deduction_in": 0.1,
+          "n_obs": 6,
+          "so_range": ["84700", "85015"],
+          "flag": "ok"
+        }
+      }
+    }
+  },
+  "section_dna": {
+    "1023": {
+      "meaning": "2-Opening Refrigerated Base (body, liner, partitions, gasket frame, insul)",
+      "anchor_skeletons": 2,
+      "train_so_support": "15/52",
+      "parts_per_skel": 21.0,
+      "est_dxfs_per_skel": 18.31,
+      "related_3_opening_code": "1024 (10/52 SOs, 23.0 parts/skel)",
+      "node_id": "sub_ref_base_1023"
+    },
+    "1018": {
+      "meaning": "Refrigerated Door (front, handle, 430 back, gasket, insul, hinge BUs, strike)",
+      "anchor_skeletons": 8,
+      "train_so_support": "15/52",
+      "parts_per_skel": 4.4,
+      "est_dxfs_per_skel": 3.84,
+      "node_id": "sub_doors_mag430"
+    },
+    "1015": {
+      "meaning": "Ambient Insulated Door (front, back, insul)",
+      "anchor_skeletons": 9,
+      "train_so_support": "16/52",
+      "parts_per_skel": 3.0,
+      "est_dxfs_per_skel": 2.62,
+      "node_id": "sub_doors_mag430"
+    },
+    "1009": {
+      "meaning": "Mullion assembly (430 front, 20ga mill BU, clips)",
+      "anchor_skeletons": 4,
+      "train_so_support": "15/52",
+      "parts_per_skel": 4.0,
+      "est_dxfs_per_skel": 3.49,
+      "node_id": "sub_doors_mag430"
+    },
+    "1039": {
+      "meaning": "Hinge / Cover / Bracket / PVC Thermal Break Kit",
+      "anchor_skeletons": 3,
+      "train_so_support": "15/52",
+      "parts_per_skel": 6.0,
+      "est_dxfs_per_skel": 5.23,
+      "node_id": "sub_doors_mag430"
+    },
+    "1041": {
+      "meaning": "Insulated Cold Pan / Drop-in Pan Liner (pan + 8 insul panels)",
+      "anchor_skeletons": 3,
+      "train_so_support": "17/52",
+      "parts_per_skel": 5.9,
+      "est_dxfs_per_skel": 5.14,
+      "node_id": "sub_cold_pan_1041"
+    },
+    "1030": {
+      "meaning": "Fabricated Sink Bowl (14ga bowl + LH/RH ends + ears)",
+      "anchor_skeletons": 3,
+      "train_so_support": "15/52",
+      "parts_per_skel": 3.0,
+      "est_dxfs_per_skel": 2.62,
+      "node_id": "sub_sink_1030"
+    },
+    "1043": {
+      "meaning": "Lighted / Access Apron (18ga apron + access BU + light cutouts)",
+      "anchor_skeletons": 2,
+      "train_so_support": "17/52",
+      "parts_per_skel": 4.5,
+      "est_dxfs_per_skel": 3.92,
+      "node_id": "sub_apron_1043"
+    },
+    "1020": {
+      "meaning": "Adjustable/Fixed Shelf + 14ga Shelf Channel",
+      "anchor_skeletons": 5,
+      "train_so_support": "9/52",
+      "parts_per_skel": 1.9,
+      "est_dxfs_per_skel": 1.66,
+      "node_id": "sub_shelves_1020"
+    },
+    "1058": {
+      "meaning": "Auxiliary Counter Sub-Assembly",
+      "anchor_skeletons": 1,
+      "train_so_support": "anchor_specific",
+      "node_id": "sub_ref_base_1023"
+    }
+  },
+  "buyout_subsystems": {
+    "attribution_mode": "wo_direct",
+    "anchor_bought_rows": 17,
+    "cross_division_shared_skus": [
+      "Carel PJEZSNH100 digital controller (30 SOs across EMJAC + Harmonic)",
+      "RACO #232 electrical J-box",
+      "SSOV3S130 solenoid valve",
+      "MKC-1 solenoid coil"
+    ],
+    "subsystems": {
+      "doors_hardware_hinges": {
+        "anchor_rows": 5,
+        "train_so_support": "47/52 (90.4%)",
+        "components": "Cam-lift hinges, magnetic perimeter gaskets, pull handles, strike plates",
+        "node_id": "part_buyout_hinges_gaskets"
+      },
+      "refrigeration_evap": {
+        "anchor_rows": 4,
+        "train_so_support": "19/52 (36.5%)",
+        "components": "Evaporator coil unit, SSOV3S130 solenoid valve, MKC-1 coil, copper suction/liquid lines",
+        "node_id": "part_buyout_evap_coil"
+      },
+      "plumbing_sink_drain": {
+        "anchor_rows": 2,
+        "train_so_support": "24/52 (46.2%)",
+        "components": "Deck-mount commercial gooseneck faucet, basket strainer drain & tailpiece",
+        "node_id": "part_buyout_sink_plumbing"
+      },
+      "electrical_lighting": {
+        "anchor_rows": 2,
+        "train_so_support": "21/52 (40.4%)",
+        "components": "RACO #232 electrical J-box, under-shelf & apron LED strip luminaires",
+        "node_id": "part_buyout_raco_led"
+      },
+      "cold_pan_hot_well": {
+        "anchor_rows": 1,
+        "train_so_support": "18/52 (34.6%)",
+        "components": "Cold-wall serpentine coil & condensate drain interface under 1041 pan",
+        "node_id": "part_cold_pan_evap_coil"
+      },
+      "controls_thermostat": {
+        "anchor_rows": 1,
+        "train_so_support": "17/52 (32.7%)",
+        "components": "Carel PJEZSNH100 digital refrigeration controller & probe",
+        "node_id": "part_buyout_carel_ctrl"
+      },
+      "insulation_thermal": {
+        "anchor_rows": 1,
+        "train_so_support": "25/52 (48.1%)",
+        "components": "1.000\" rigid urethane foam board stock (74 cut pieces) + 1039 PVC thermal break strips",
+        "node_id": "part_base_insul_ure"
+      }
+    }
+  },
+  "engineer_inputs": {
+    "description": "Order-specific Gate-1 decisions supplied by the Fabrication Engineer. Locked shop gauges, bend deductions, and ferritic 430 magnetic physics remain invariant.",
+    "active_selection": {
+      "shipping_split": "multi_series",
+      "architectural_finish": "304_no4",
+      "drop_in_cutouts": "both",
+      "buyout_scope": "emjac_supplied"
+    },
+    "options": {
+      "shipping_split": {
+        "label": "Field-Joint Shipping Split",
+        "default": "multi_series",
+        "choices": [
+          { "value": "multi_series", "label": "Multi-Series Split (>138\" · Series A–D / H–J)" },
+          { "value": "single_piece", "label": "Single-Piece Continuous (<=138\" Ship Limit)" }
+        ],
+        "affected_nodes": ["part_top_field_joint", "part_top_right", "sub_sink_1030"]
+      },
+      "architectural_finish": {
+        "label": "Architectural Finish",
+        "default": "304_no4",
+        "choices": [
+          { "value": "304_no4", "label": "304 #4 Brushed (8012-4 / 8041-4 · 94.2%)" },
+          { "value": "powdercoat_black", "label": "Powdercoat Dark (9-78-2 · Gauge Locked)" },
+          { "value": "316_coastal", "label": "316 Marine / Coastal (Corrosion Upgrade)" },
+          { "value": "satin_brass_bronze", "label": "Satin Brass / Bronze Architectural Cladding" }
+        ],
+        "affected_nodes": ["sub_top_envelope", "sub_apron_1043", "sub_doors_mag430", "sub_shelves_1020", "sub_ref_base_1023"]
+      },
+      "drop_in_cutouts": {
+        "label": "Top Cutout Equipment",
+        "default": "both",
+        "choices": [
+          { "value": "both", "label": "Cold Pan 1041 + Sink 1030 (Anchor WO)" },
+          { "value": "cold_pan_only", "label": "Cold Pan 1041 Only (Blank Sink Bay)" },
+          { "value": "sink_only", "label": "Sink 1030 Only (Blank Cold Pan Bay)" },
+          { "value": "flat_top", "label": "Solid Prep Top (Blank Both Cutouts)" }
+        ],
+        "affected_nodes": ["sub_cold_pan_1041", "sub_sink_1030", "part_top_blank_cold_pan", "part_top_blank_sink"]
+      },
+      "buyout_scope": {
+        "label": "Buyout Supply Scope",
+        "default": "emjac_supplied",
+        "choices": [
+          { "value": "emjac_supplied", "label": "Emjac Supplied (WO-Direct PO · 17 rows)" },
+          { "value": "dealer_supplied", "label": "Dealer Supplied (Field-Installed Ghost)" }
+        ],
+        "affected_nodes": ["sub_buyouts"]
+      }
+    }
+  }
+}
