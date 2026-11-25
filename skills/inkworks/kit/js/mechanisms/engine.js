@@ -105,7 +105,7 @@ export default {
     const tmpV = new THREE.Vector3();
     const tmpColor = new THREE.Color();
     const C_IN = new THREE.Color(C.in), C_CO = new THREE.Color(C.co), C_PW = new THREE.Color(C.pw), C_EX = new THREE.Color(C.ex);
-    const C_HOT = new THREE.Color('#ffc93a'), C_EMBER = new THREE.Color('#a3341f'), EX_BASE = new THREE.Color('#aab4c2');
+    const C_HOT = new THREE.Color('#ffc93a'), C_EMBER = new THREE.Color('#a3341f'), EX_BASE = new THREE.Color(kit.theme.mat.dark);   // flame colours stay physical
 
     /* ---------- crankshaft ---------- */
     const crank = new THREE.Group();
@@ -271,13 +271,13 @@ export default {
         new THREE.Vector3(cx, 2.5, -0.32), new THREE.Vector3(cx, 2.62, -0.85), new THREE.Vector3(cx, 2.72, -1.4), new THREE.Vector3(cx, PLENUM.y, PLENUM.z + 0.08)]);
       engine.add(part(new THREE.TubeGeometry(run, 28, 0.12, 18), M.glass, { edges: false, outline: false }));
       engine.add(ghostRings(run, 0.12));
-      const em = toon('#aab4c2');
+      const em = toon(kit.theme.mat.dark);
       exhaustMats.push(em);
       const hdr = new THREE.CatmullRomCurve3([
         new THREE.Vector3(cx, 2.5, 0.32), new THREE.Vector3(cx, 2.6, 0.85), new THREE.Vector3(cx, 2.32, 1.35), new THREE.Vector3(cx * 0.55, 1.55, 1.66), new THREE.Vector3(cx * 0.12, 1.02, 1.76)]);
       engine.add(part(new THREE.TubeGeometry(hdr, 40, 0.1, 16), em, { edges: false }));
     });
-    const pipeMat = toon('#aab4c2');
+    const pipeMat = toon(kit.theme.mat.dark);
     engine.add(part(new THREE.TubeGeometry(new THREE.CatmullRomCurve3([
       new THREE.Vector3(0.1, 1.0, 1.76), new THREE.Vector3(-1.2, 0.74, 1.8), new THREE.Vector3(-2.6, 0.62, 1.8), new THREE.Vector3(-3.8, 0.6, 1.8)]), 30, 0.15, 20), pipeMat, { edges: false }));
 

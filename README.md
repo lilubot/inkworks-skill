@@ -85,7 +85,7 @@ Every page also takes a theme, switched with `?theme=`: `drafting` (the default 
 
 - **The kit** (`skills/inkworks/kit/`) is a complete page with no build step and three.js vendored. `kit.js` is the drawing style: toon parts with ink edges and constant-pixel outlines, hidden-line ghosts, glass, particle streams, sparks, gears and springs. `sheet.js` is everything around the machine: the DOM, state, loop, both layouts, controls, gauge, charts, labels and tags.
 - **A mechanism** is one file. It holds the geometry, the kinematics as functions of one driver angle, phase names and text, labels, readouts, the camera, and what the slider drives. `starter.js` is the smallest complete one, with every field commented. `engine.js` and `pump.js` are the worked examples, and `regen.js` shows the kit is not limited to machines: a parametric feature tree rebuilding a part.
-- **Themes** (`kit/themes/*.md`) hold every colour, font and 3D material. `theme.js` reads one at load; nothing else hard-codes a colour.
+- **Themes** (`kit/themes/*.md`) hold every colour, font and 3D material. `theme.js` reads one at load and the kit itself hard-codes no colour; the engine example keeps a few effect colours of its own (flame, its focus ring).
 - **Tools.** `smoke.py` clicks every control in both layouts at three screen sizes and fails on any page error. `record.py` makes frame-exact 60 fps walkthrough clips with a drawn cursor and real mouse events, from a short plan file. `engine_sound.py` shows how to synthesise a sound track from the clip's own per-frame state, so the engine note follows the tachometer.
 
 ## Try it
