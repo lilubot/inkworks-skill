@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Inkworks</title>
-<meta name="description" content="An interactive 3D drafting sheet: a mechanism you can slow down, step, scrub and orbit.">
+<title>Inkworks — 3D Engineering Intent Workbench</title>
+<meta name="description" content="Interactive 3D CAD engineering workbench with hierarchical assembly tree, exploded views, standards-badged drafting callouts, and live YAML/JSON product DNA.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="css/sheet.css">
@@ -12,10 +12,11 @@
 { "imports": { "three": "./vendor/three/three.module.js", "three/addons/": "./vendor/three/addons/" } }
 </script>
 </head>
-<!-- data-mechanism: a file in js/mechanisms/ (override with ?m=). data-layout: sheet | figure (override with ?layout=).
-     data-theme: drafting | blueprint | patent | creo, see js/theme.js (override with ?theme=). Fonts load from the theme. -->
-<body data-mechanism="engine">
-  <noscript><p class="nojs">This drawing needs JavaScript to run the 3D model.</p></noscript>
+<!-- data-assembly: a file in js/assemblies/ (override with ?a= or ?m=).
+     data-layout: sheet | figure (override with ?layout=).
+     data-theme: creo | drafting | blueprint | patent | project (override with ?theme=). -->
+<body data-assembly="starter" data-theme="creo" data-layout="sheet">
+  <noscript><p class="nojs">This engineering workbench requires JavaScript to render the 3D assembly.</p></noscript>
   <script type="module" src="js/main.js"></script>
 </body>
 </html>

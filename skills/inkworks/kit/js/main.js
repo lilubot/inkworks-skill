@@ -1,8 +1,19 @@
 import { createSheet } from './sheet.js';
 
-// which mechanism: ?m=name (or examples/name in a scaffolded project), else <body data-mechanism>
+// Assembly selection: ?a=name or ?m=name, else <body data-assembly> (default counter_087837)
 const q = new URLSearchParams(location.search);
-let name = q.get('m') || document.body.dataset.mechanism || 'engine';
-if (!/^[a-z0-9_-]+(\/[a-z0-9_-]+)?$/i.test(name)) name = document.body.dataset.mechanism || 'engine';
-const { default: mech } = await import(`./mechanisms/${name}.js`);
-createSheet(mech);
+const fallback = document.body.dataset.assembly || document.body.dataset.mechanism || 'counter_087837';
+let name = q.get('a') || q.get('m') || fallback;
+if (!/^[a-z0-9_-]+(\/[a-z0-9_-]+)?$/i.test(name)) name = fallback;
+
+try {
+  const mod = await import(`./assemblies/${name}.js`);
+  const assembly = mod.default || mod.assembly || mod;
+  await createSheet(assembly);
+} catch (err) {
+  console.error(`Inkworks: failed to load assembly '${name}'`, err);
+  const el = document.createElement('p');
+  el.className = 'nojs';
+  el.textContent = `Could not load assembly "${name}": ${err?.message || err}`;
+  document.body.appendChild(el);
+}

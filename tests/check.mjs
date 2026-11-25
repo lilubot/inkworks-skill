@@ -86,8 +86,11 @@ for (const plugin of JSON.parse(readFileSync(join(ROOT, '.claude-plugin/marketpl
   if (plugin.source === './' && plugin.skills) fail('.claude-plugin/marketplace.json', `plugin "${plugin.name}" lists skills that skills/ already provides; each would load twice`);
 }
 
-// scripts parse
+// scripts and data parse
 const files = walk(SKILLS);
+for (const f of files.filter((f) => f.endsWith('.json'))) {
+  try { JSON.parse(readFileSync(f, 'utf8')); } catch (e) { fail(relative(ROOT, f), 'invalid JSON: ' + e.message); }
+}
 for (const f of files.filter((f) => f.endsWith('.js') || f.endsWith('.mjs'))) {
   try { execFileSync(process.execPath, ['--check', f], { stdio: 'pipe' }); } catch (e) { fail(relative(ROOT, f), String(e.stderr || e).split('\n').slice(0, 3).join(' ')); }
 }
