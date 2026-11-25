@@ -5,7 +5,7 @@
    and the active parameters, so stepping and scrubbing replay the regen exactly.
    Parameter edits (bolt count, family-table instance) only take effect at the next regen,
    the way a modified dimension waits for Regenerate in Creo.
-   ponytail: the page replays the whole tree each pass (like Regenerate All); real Creo starts
+   Simplified: the page replays the whole tree each pass (like Regenerate All); real Creo starts
    at the first modified feature. Volumes ignore the rib/round overlap (a few grams).
    ========================================================================= */
 import { HUES, D2R, mod, clamp01, smooth } from '../kit.js';

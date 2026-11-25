@@ -75,6 +75,8 @@ Any machine with a cycle: engines, pumps, compressors, locks, gearboxes, turbine
 | `sheet` | Drawing border with zone letters, headline, phase panel with live readouts, gauge, input slider, slow-motion buttons, an x-y loop (P-V for the engine), transport buttons, title block, and a cycle chart you can drag to scrub | A page people explore |
 | `figure` | The model alone on a rounded card, labels both sides, unit tags with dashed leaders, a status line and a slim control strip | Embeds, posts and clips |
 
+Every page also takes a theme, switched with `?theme=`: `drafting` (the default look above), `blueprint` (white ink on navy), `patent` (sepia on ivory) or `creo` (a CAD viewport). A theme is a `DESIGN.md` file in the [impeccable](https://impeccable.style) / Stitch format, so a project's own `DESIGN.md` is its theme and impeccable's design commands can edit it.
+
 <p align="center">
   <img src="examples/pump-walkthrough.webp" alt="The bike pump in the figure layout: the cursor steps through up stroke, squeeze and deliver, speeds up the pumping so the tyre gauge climbs, orbits, hides the barrel and lets the air out" width="100%" />
 </p>
@@ -82,7 +84,8 @@ Any machine with a cycle: engines, pumps, compressors, locks, gearboxes, turbine
 ## How it works
 
 - **The kit** (`skills/inkworks/kit/`) is a complete page with no build step and three.js vendored. `kit.js` is the drawing style: toon parts with ink edges and constant-pixel outlines, hidden-line ghosts, glass, particle streams, sparks, gears and springs. `sheet.js` is everything around the machine: the DOM, state, loop, both layouts, controls, gauge, charts, labels and tags.
-- **A mechanism** is one file. It holds the geometry, the kinematics as functions of one driver angle, phase names and text, labels, readouts, the camera, and what the slider drives. `starter.js` is the smallest complete one, with every field commented. `engine.js` and `pump.js` are the worked examples.
+- **A mechanism** is one file. It holds the geometry, the kinematics as functions of one driver angle, phase names and text, labels, readouts, the camera, and what the slider drives. `starter.js` is the smallest complete one, with every field commented. `engine.js` and `pump.js` are the worked examples, and `regen.js` shows the kit is not limited to machines: a parametric feature tree rebuilding a part.
+- **Themes** (`kit/themes/*.md`) hold every colour, font and 3D material. `theme.js` reads one at load; nothing else hard-codes a colour.
 - **Tools.** `smoke.py` clicks every control in both layouts at three screen sizes and fails on any page error. `record.py` makes frame-exact 60 fps walkthrough clips with a drawn cursor and real mouse events, from a short plan file. `engine_sound.py` shows how to synthesise a sound track from the clip's own per-frame state, so the engine note follows the tachometer.
 
 ## Try it

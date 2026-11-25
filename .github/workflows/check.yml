@@ -46,9 +46,13 @@ jobs:
           python skills/inkworks/scripts/new_project.py "$P" --name lock --from starter
           (cd "$P" && python serve.py 9081 > /dev/null 2>&1 &)
           sleep 2
-          for m in lock examples/engine examples/pump; do
+          for m in lock examples/engine examples/pump examples/regen; do
             echo "== $m"
             python "$P/tools/smoke.py" --browser chromium --url "http://localhost:9081/?m=$m" --sizes 1440x900,390x844
+          done
+          for t in drafting blueprint patent creo; do
+            echo "== examples/regen theme=$t"
+            python "$P/tools/smoke.py" --browser chromium --url "http://localhost:9081/?m=examples/regen&theme=$t" --sizes 1440x900
           done
       - name: Stills
         if: always()
