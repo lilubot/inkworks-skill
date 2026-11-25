@@ -1,33 +1,29 @@
 # Lessons
 
-Things that went wrong while building the engine and the pump, and what fixed them.
+Engineering lessons collected while building and refactoring Inkworks into a CAD-ready 3D Engineering Intent workbench, and the exact fixes that stay in the kit.
 
 ## Layout and framing
 
-- **Callouts piled onto the panels.** Fixed offsets per label never survive an orbit. Lay them out every frame: project the anchor points, sort by x, split into a left and a right column, push apart by a fixed gap, then pull the stack back inside the free region.
-- **The model hid behind the side panels.** Centre it in the free region with `camera.setViewOffset` and fit the distance to that region, not to the window. Recompute on resize and after fonts load.
-- **Parts left the frame at the end of the stroke.** The pump's handle travels to nearly twice the pump's height. Make `view.box` cover full travel, and check stills at both ends of the cycle, not just the start.
-- **The right column overflowed at 1280x720.** Put the title block inside the instruments column with `margin-top: auto`, hide hints on short screens, and put extra action buttons in the transport row instead of adding a row.
-- **Dark parts became holes.** On white paper anything darker than about `#8f98a7` reads as a black blob. The tyre first used `#59606e` and dominated the frame.
+- **Callouts piled onto the rails.** Fixed screen offsets break as soon as a user orbits or pans. Lay callouts out every frame: project anchor points to screen space, sort by X, split into left and right columns outside the assembly's projected bounding box, push labels apart by a fixed vertical gap, then clamp back inside the free stage rect.
+- **The assembly hid behind side rails.** Center `view.target` inside the free stage rectangle between the left model tree and right YAML/JSON inspector using `camera.setViewOffset`, and fit camera distance to that free rectangle rather than the full window. Recompute on resize and after `document.fonts.ready`.
+- **Exploded subassemblies clipped out of frame.** At `100%` explode, doors, aprons, tops, and buyouts travel well past the assembled footprint. Set `view.box` (or use `tree.getExplodedBounds()`) to cover full exploded travel, and inspect stills at both `0%` and `100%` explode.
+- **Dark materials collapsed into black holes on light viewports.** On light `creo` and `drafting` backgrounds, toon albedo darker than about `#8c95a2` loses edge contrast and reads as a flat blotch. Calibrate dark metals (like blackened steel or rubber gaskets) in `materials.js` so 30-degree ink feature lines still read clearly.
 
-## Motion and state
+## 3D ingestion, materials, and hierarchy
 
-- **Back went forward.** Stepping back from just inside a phase jumped 540 degrees forward. `jumpTo(target, dir)` must take a direction: -1 always goes backwards, 0 takes the shortest way round.
-- **Particles raced while paused or ran backwards when scrubbed.** Advance streams and accumulate heat or pressure by how far theta moved this frame, ignore jumps over half a cycle, and never use wall time.
-- **Accumulating state and scrubbing.** The pump's tyre only fills while theta moves forward through the delivery phase; scrubbing back does not empty it. Say so in the code.
-- **Spring length.** A valve spring compresses as the valve opens: `scale.y = rest - lift`, with the spring's base on the head, not the valve.
-- **Phase bounds that move.** The pump's check valve opens where the barrel pressure reaches the tyre's. Computing that angle every frame in `bounds(state)` makes the chart, the phase panel and the step buttons all agree, and the moving red band is the best teaching moment on the page.
+- **Offline GLB loading without CDN dependencies.** Vendoring a standalone ES module `gltf-loader.js` built directly against vendored Three.js r169 guarantees zero external network calls, works in air-gapped shop-floor environments, and preserves `node.extras`, `mesh.extras`, and `material.extras` verbatim in `object3d.userData`.
+- **Styling GLBs without breaking selection or hierarchy.** `kit.applyInkStyle(root)` attaches edge and inverted-hull silhouette meshes as `__inkHelper` children rather than replacing parent groups or overwriting `userData`. Raycasting (`kit.pick()`) ignores `__inkHelper` meshes and walks up to the owning tree node cleanly.
+- **Gauge-vs-Finish decoupling in `materials.js`.** Architectural finish switching (`setArchitecturalFinish()`) must only re-skin eligible exposed panels while keeping physics-locked materials immutable: ferritic 18ga 430 (`8285`) magnetic gasket surfaces, structural 11ga angles, 20ga mill internal liners, urethane insulation, and buyout hardware never change when an architect selects powdercoat or brass.
+- **Persistent per-node tree state across timeline scrubbing.** Users toggle visibility, ghosting, isolation, and scoped explode on individual subassemblies and parts. `tree.evaluateTimeline(t)` drives stage progression and default explode curves while respecting explicit user overrides so scrubbing the bottom timeline never wipes out a manual hide or isolate state.
 
-## Drawing
+## Stage progression and idle rendering
 
-- **Plots squashed when their CSS aspect changed.** Size a canvas from its bounding box on every layout, never from fixed attributes.
-- **A plot loop drew a line back across.** When a phase ends exactly at the cycle length, do not wrap that last point to 0.
-- **Additive sparks vanished on white.** Use normal blending and a texture with its own dark red rays.
-- **Emissive heat washed out.** Lerp the material colour toward red instead.
+- **Stepping backward jumped forward.** `stepStage(-1)` must clamp or step directly to the previous stage boundary rather than wrapping arbitrarily. Always treat build stages as an ordered engineering sequence (`0..N-1`) with explicit stage ranges.
+- **Continuous rendering timed out automated design checks.** `impeccable detect` (`design_check.sh`) waits for the browser main thread to go idle. Throttling the animation loop after `SETTLE = 1.5s` of no camera motion, no tween, and paused playback (`?play=0`) keeps CPU usage at zero when idle and makes automated visual gates fast and reliable.
 
-## Tooling
+## Tooling and repo integrity
 
-- **rAF freezes under the virtual clock**, and so does any `wait_for_function` that polls on animation frames. Poll on an interval (`polling=100`) and pre-roll a few frames before measuring the page.
-- **WebKit screenshots stall about once in 100 frames at 1080p.** Retry with a 20 s timeout; the paused clock makes the retried frame identical.
-- **The smoke test's chart scrub missed on phones** because the chart was below the fold. Scroll the element into view before driving it with the mouse.
-- **ffmpeg builds without libwebp** cannot write animated WebP. Encode README animations with Pillow from PNG frames.
+- **rAF freezes under the virtual clock** in `record.py`, which also freezes `wait_for_function` calls that rely on animation frames. Poll on an interval (`polling=100`) and pre-roll a few virtual ticks before measuring bounding boxes.
+- **WebKit screenshots occasionally stall at 1080p.** Retry screenshots with a 20 s timeout; under the paused virtual clock, the retried frame is bit-identical.
+- **Timeline scrub misses on phone viewports** when the bottom timeline sits below the fold. Always call `scroll_into_view_if_needed()` before driving mouse drags in `smoke.py`.
+- **Strict skill frontmatter and em-dash checks.** `tests/check.mjs` parses `SKILL.md` YAML frontmatter in strict mode, verifies every referenced `scripts/`, `assets/`, or `references/` path exists on disk, checks all `.js`/`.mjs` with `node --check` and `.py` with `ast.parse`, and rejects any em dash in `SKILL.md`.

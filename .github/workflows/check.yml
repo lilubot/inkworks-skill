@@ -36,6 +36,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: Validate shipped GLB assets
+        run: |
+          python skills/inkworks/kit/tools/ingest_cad.py --validate skills/inkworks/kit/assets/counter_087837_032.glb
       - name: Install Playwright
         run: |
           pip install -q "playwright>=1.45"
@@ -46,19 +49,19 @@ jobs:
           python skills/inkworks/scripts/new_project.py "$P" --name demo --from starter
           (cd "$P" && python serve.py 9081 > /dev/null 2>&1 &)
           sleep 2
-          for a in demo examples/starter; do
+          for a in demo examples/counter_087837; do
             echo "== $a"
             python "$P/tools/smoke.py" --browser chromium --url "http://localhost:9081/?a=$a" --sizes 1440x900,390x844
           done
           for t in creo drafting blueprint patent; do
-            echo "== examples/starter theme=$t"
-            python "$P/tools/smoke.py" --browser chromium --url "http://localhost:9081/?a=examples/starter&theme=$t" --sizes 1440x900
+            echo "== examples/counter_087837 theme=$t"
+            python "$P/tools/smoke.py" --browser chromium --url "http://localhost:9081/?a=examples/counter_087837&theme=$t" --sizes 1440x900
           done
       - name: Stills
         if: always()
         run: |
           P="$RUNNER_TEMP/proj"; mkdir -p "$RUNNER_TEMP/stills"
-          for a in examples/starter demo; do for l in sheet figure; do
+          for a in examples/counter_087837 demo; do for l in sheet figure; do
             python "$P/tools/shoot.py" --browser chromium "$RUNNER_TEMP/stills/$(basename $a)-$l.png" --url "http://localhost:9081/?a=$a&layout=$l" --wait 3 || true
           done; done
       - uses: actions/upload-artifact@v4

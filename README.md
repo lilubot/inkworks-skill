@@ -1,6 +1,6 @@
 <h1 align="center">Inkworks</h1>
 
-<p align="center">Interactive 3D "how it works" pages that look like an engineering drawing, built by your coding agent.</p>
+<p align="center">Interactive 3D Engineering Intent &amp; Product DNA workbenches in a crisp CAD technical-drawing style, built by your coding agent.</p>
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-24292f?style=flat" alt="MIT License" /></a>
@@ -10,22 +10,26 @@
   <a href="https://github.com/Moh4696/inkworks-skill/actions/workflows/check.yml"><img src="https://github.com/Moh4696/inkworks-skill/actions/workflows/check.yml/badge.svg" alt="Checks" /></a>
 </p>
 
-<p align="center">
-  <img src="examples/engine-walkthrough.webp" alt="A cursor steps an inline-4 engine through its strokes on a white drafting sheet, opens the throttle so the tachometer climbs, orbits the camera and scrubs the firing chart" width="100%" />
-</p>
+Inkworks turns real manufacturing assemblies, ERP standards, and CAD geometry (`.glb` / `.gltf` or parametric Three.js) into interactive 3D engineering workbenches designed for **EMJAC**, **Harmonic Environments**, **SDI**, and **Custom Kitchen Equipment** engineering teams.
 
-Ask your agent for "an interactive 3D page that shows how a car engine works" and it builds a white engineering drawing that moves. Light grey parts with ink outlines, numbered drafting balloons, and the machine running slowly enough to follow. Readers can pause it, step one phase at a time, scrub a cycle chart, follow one cylinder, open the throttle and orbit the camera.
+Every assembly renders in a clean, offline, zero-build technical drawing viewport (defaulting to the Creo Parametric `creo` theme) with 3-step toon solids, 30-degree ink feature edges, constant-pixel silhouettes, native exploded views with dashed trace lines, interactive standards-badged callouts, a collapsible `Assembly -> Subassembly -> Part` model tree, a persistent granular subsystem timeline, and a **live bidirectional YAML/JSON Engineering Standards & Product DNA Inspector**.
 
-Everything is code: three.js parts built from primitives, closed-form kinematics, no model files and no generated video. Every motion on the page comes from one driver angle, so stepping, scrubbing and slow motion are always exact.
+## Five Engineering Pillars
 
-<table>
-  <tr>
-    <td width="50%"><img src="examples/engine-figure.webp" alt="The engine in the figure layout: the model alone on a rounded grid card, Cyl 1 to Cyl 4 tags above the cylinders with dashed leaders, labels in two columns, a status line and a slim control strip" /></td>
-    <td width="50%"><img src="examples/pump-sheet.webp" alt="A bicycle floor pump and wheel on the sheet layout: phase panel showing Deliver, a tyre-pressure gauge at 3.2 bar, a barrel pressure-volume loop and a stroke chart" /></td>
-  </tr>
-</table>
+1. **Hierarchical 3D Model Viewing & CAD Ingestion** — Offline GLTF 2.0 / binary `.glb` loader (`gltf-loader.js`) plus `kit/tools/ingest_cad.py`, pan/orbit camera with `Iso`, `Front`, `Side`, `Top`, `Reset` presets, smooth `flyToNode()` focus, and theme-aware EMJAC material mapping (`materials.js` covering 304 #4, ferritic magnetic 430 `8285`, 11ga angles, 20ga mill liners, urethane insulation, tempered IG glass, wood blocking, buyouts, and live architectural finishes).
+2. **Interactive Standards-Badged Callouts** — Clickable two-column de-overlapped drafting callouts showing part names, compact gauge/ERP stock pills (e.g. `14ga 304 #4 · 8012-4` or `18ga 430 · MAG`), and semantic status colors (`Locked Standard`, `Engineer Input`, `Buyout`).
+3. **Hierarchical Model Tree & Persistent Granular Timeline** — Collapsible `Assembly -> Subassembly -> Part` tree with per-node visibility, ghost/cutaway, and isolation controls paired with a multi-track bottom timeline that preserves explicit user visibility/explode overrides while scrubbing build stages.
+4. **Native Exploded View (`0%–100%`)** — Global or per-subassembly explosion along authored vectors with staggered peel order, quick `0%` / `50%` / `100%` presets, and toggleable dashed assembly trace lines.
+5. **Live Companion YAML / JSON Standards Inspector** — Syntax-highlighted YAML (default) with one-click JSON toggle, Copy button, status filter tabs (`All`, `Standards`, `Options`, `Buyouts`), live **Engineer-Provided Option** controls that update both the 3D scene and spec contract, and full bidirectional selection sync between 3D parts, tree nodes, callouts, and YAML/JSON paths.
 
-<sub>Left: the engine in the figure layout. Right: the second example, a bike pump, on the full sheet. Its delivery phase starts later on every stroke as the tyre fills.</sub>
+## Flagship Reference Model: EMJAC Refrigerated Counter `087837-032`
+
+Ships out of the box (`kit/js/assemblies/counter_087837.js`, `kit/assets/counter_087837_032.glb`, `kit/data/counter_087837.spec.json`) showcasing authentic harvested fabrication DNA (`WO 087837-032`, `PL=CN`, Item `A328`, 188 DXFs, 274 made rows, 17 bought rows):
+
+- **14ga 304 #4 Top Law** (`8012-4`, 40/41 = 97.6% verified) and **>138" Field-Joint Shipping Split** under the 144" sheet ceiling.
+- **Magnetic 430 Physics Law:** `DOOR FRONT` in 18ga 304 #4 (`8041-4`) paired with 100% ferritic 18ga 430 (`8285`) on `DOOR BACK`, `GASKET FRAME`, and `MULLION FRONT` so magnetic gaskets adhere reliably.
+- **Modular Creo Section Subassemblies:** `1023` Refrigerated Base, `1018`/`1015`/`1009`/`1039` Doors & Mullions, `1041` Insulated Cold Pan, `1030` Fabricated Sink Bowl, `1043` Lighted Access Apron, `1020` Overshelf/Undershelf, and 7 WO-direct buyout subsystems (Carel `PJEZSNH100`, `RACO #232`, `SSOV3S130`, evap coil, hinges/gaskets, drain, LED).
+- **Live Gauge-vs-Finish Decoupling:** Toggle architectural finish, field-joint shipping split, cutouts, and buyout scope live while locked structural and magnetic 430 standards remain protected.
 
 ## Install
 
@@ -33,7 +37,7 @@ Everything is code: three.js parts built from primitives, closed-form kinematics
 npx skills add Moh4696/inkworks-skill
 ```
 
-That uses the [`npx skills`](https://github.com/vercel-labs/skills) CLI (Node 22.20+). It installs for Claude Code, Codex, Cursor, Gemini CLI, OpenCode and dozens more. Start a new agent session afterwards.
+Uses the [`npx skills`](https://github.com/vercel-labs/skills) CLI (Node 22.20+) for Claude Code, Codex, Cursor, Gemini CLI, OpenCode, and more. Start a new agent session afterwards.
 
 <details>
 <summary>Claude Code plugin</summary>
@@ -62,56 +66,55 @@ codex plugin add inkworks-skill@inkworks-skill
 curl -fsSL https://raw.githubusercontent.com/Moh4696/inkworks-skill/main/install.sh | bash
 ```
 
-It clones the repo to `~/.inkworks-skill` and links the skill into every agent it finds. Run it again to update; `--uninstall` removes it.
+Clones the repo to `~/.inkworks-skill` and links the skill into every agent it finds. Run again to update; `--uninstall` removes it.
 
 </details>
 
-## What it makes
+## Layouts & Themes
 
-Any machine with a cycle: engines, pumps, compressors, locks, gearboxes, turbines, sewing machines, steam valve gear, a beating heart. You get one page in one of two layouts. Both are always available, so you can switch with `?layout=`.
+Every page supports two layouts via `?layout=`:
 
 | Layout | What is on it | Best for |
 | --- | --- | --- |
-| `sheet` | Drawing border with zone letters, headline, phase panel with live readouts, gauge, input slider, slow-motion buttons, an x-y loop (P-V for the engine), transport buttons, title block, and a cycle chart you can drag to scrub | A page people explore |
-| `figure` | The model alone on a rounded card, labels both sides, unit tags with dashed leaders, a status line and a slim control strip | Embeds, posts and clips |
+| `sheet` (default) | Top bar (WO badge, camera presets, display toggles, theme switcher), left rail (build stages, explode slider, hierarchical model tree), center 3D viewport with interactive standards callouts, bottom granular subsystem timeline, and right YAML/JSON Engineering Standards Inspector | Engineering review, Gate-1 signoff, shop-floor reference |
+| `figure` | Rounded card with assembly badge, stage chip, 3D viewport, two-column standards callouts, and slim transport + explode strip | Embeds, design packets, stakeholder clips |
 
-Every page also takes a theme, switched with `?theme=`: `drafting` (the default look above), `blueprint` (white ink on navy), `patent` (sepia on ivory) or `creo` (a CAD viewport). A theme is a `DESIGN.md` file in the [impeccable](https://impeccable.style) / Stitch format, so a project's own `DESIGN.md` is its theme and impeccable's design commands can edit it.
+Every page supports `DESIGN.md` themes in the [impeccable](https://impeccable.style) / Stitch format via `?theme=`:
 
-<p align="center">
-  <img src="examples/pump-walkthrough.webp" alt="The bike pump in the figure layout: the cursor steps through up stroke, squeeze and deliver, speeds up the pumping so the tyre gauge climbs, orbits, hides the barrel and lets the air out" width="100%" />
-</p>
-
-## How it works
-
-- **The kit** (`skills/inkworks/kit/`) is a complete page with no build step and three.js vendored. `kit.js` is the drawing style: toon parts with ink edges and constant-pixel outlines, hidden-line ghosts, glass, particle streams, sparks, gears and springs. `sheet.js` is everything around the machine: the DOM, state, loop, both layouts, controls, gauge, charts, labels and tags.
-- **A mechanism** is one file. It holds the geometry, the kinematics as functions of one driver angle, phase names and text, labels, readouts, the camera, and what the slider drives. `starter.js` is the smallest complete one, with every field commented. `engine.js` and `pump.js` are the worked examples, and `regen.js` shows the kit is not limited to machines: a parametric feature tree rebuilding a part.
-- **Themes** (`kit/themes/*.md`) hold every colour, font and 3D material. `theme.js` reads one at load and the kit itself hard-codes no colour; the engine example keeps a few effect colours of its own (flame, its focus ring).
-- **Tools.** `smoke.py` clicks every control in both layouts at three screen sizes and fails on any page error. `record.py` makes frame-exact 60 fps walkthrough clips with a drawn cursor and real mouse events, from a short plan file. `engine_sound.py` shows how to synthesise a sound track from the clip's own per-frame state, so the engine note follows the tachometer.
+- **`creo`** (default): Creo Parametric blue-grey viewport (`#eef2f7`), dark slate ink, sketch cyan, PTC green active highlight, IBM Plex.
+- **`drafting`**: White engineering paper, crisp ink, Instrument Serif and Geist.
+- **`blueprint`**: White ink on cyanotype navy, Archivo and JetBrains Mono.
+- **`patent`**: Sepia ink on ivory stock, IM Fell English and Courier Prime.
 
 ## Try it
 
 ```bash
 git clone https://github.com/Moh4696/inkworks-skill && cd inkworks-skill/skills/inkworks
 python3 kit/serve.py 9081
-# http://localhost:9081/?m=engine   http://localhost:9081/?m=pump&layout=sheet   http://localhost:9081/?m=starter
+# http://localhost:9081/                              (default: counter_087837, creo theme, sheet layout)
+# http://localhost:9081/?a=counter_087837&layout=figure
+# http://localhost:9081/?a=starter&theme=drafting
 ```
 
-Start your own:
+Scaffold a new engineering assembly project:
 
 ```bash
-python3 scripts/new_project.py ~/how-a-lock-works --name lock --from starter --layout figure
+python3 scripts/new_project.py ~/wine-cooler-087836 --name wine_cooler --from starter --theme creo --layout sheet
 ```
 
-To use the tools, run `pip install -r requirements.txt` and then `python -m playwright install webkit`. Clips also need ffmpeg.
+Ingest a STEP / STL / OBJ / GLB CAD file into a tagged Inkworks `.glb`:
 
-## Feedback
+```bash
+python3 kit/tools/ingest_cad.py path/to/assembly.step -o kit/assets/my_assembly.glb
+```
 
-Open an issue or a pull request, or find me on X at [@exploraX_](https://x.com/exploraX_).
+Run headless browser verification and design gates (`pip install -r requirements.txt` and `python3 -m playwright install chromium` or `webkit`):
 
-## Works well with
-
-- [Open 3D Skills](https://github.com/Moh4696/open-3d-skills): three.js scenes, exploded views, scroll films and frame-exact recording, from the same author.
-- [Cinematic Skill](https://github.com/Moh4696/cinematic-skill): narrated documentary-style films built from code.
+```bash
+python3 kit/tools/smoke.py --url "http://localhost:9081/" --browser chromium
+bash kit/tools/design_check.sh "http://localhost:9081/"
+node ../../tests/check.mjs
+```
 
 ## License
 
