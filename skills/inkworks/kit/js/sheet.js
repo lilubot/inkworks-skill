@@ -503,8 +503,6 @@ export function createSheet(mech, { layout: forcedLayout } = {}) {
       } else {
         model.tagAnchor(i, cv3, 'below'); cv3.project(camera);
         const [x, y] = toScreen(cv3, W, H);
-        const bn = el.firstChild;
-        bn.style.borderColor = bn.style.color = P[s].color;
         el.style.transform = `translate(${(x - 9).toFixed(1)}px, ${(y - 9).toFixed(1)}px)`;
       }
     });
