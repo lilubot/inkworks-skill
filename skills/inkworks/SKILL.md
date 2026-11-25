@@ -16,9 +16,11 @@ It started as a four-cylinder engine and was then split into a reusable kit and 
 | `kit/` | A complete page. Copy it, add a mechanism, serve it. No build step, three.js is vendored |
 | `kit/js/kit.js` | Rendering kit: toon parts with ink edges and outlines, hidden-line ghosts, flow particles, flashes, gears, springs |
 | `kit/js/sheet.js` | Everything around the machine: DOM, state, loop, both layouts, controls, gauge, charts, labels, tags |
+| `kit/js/theme.js` | Themes: every colour, font and 3D material in one object per theme (`drafting`, `blueprint`, `patent`, `creo`) |
 | `kit/js/mechanisms/starter.js` | The smallest complete mechanism (a slider-crank), every field commented. Start here |
 | `kit/js/mechanisms/engine.js` | Inline-4 four-stroke engine: 4 instances with phase offsets, valvetrain, spark, gas, heat |
 | `kit/js/mechanisms/pump.js` | Bike floor pump: 1 instance, phase bounds that move with state, mechanism state, an action button |
+| `kit/js/mechanisms/regen.js` | Not a machine: a Creo-style feature tree regenerating a flanged hub. Parameter edits applied at the next regen, phase-gated labels |
 | `kit/tools/smoke.py` | Clicks every control in both layouts at three sizes and fails on any page error |
 | `kit/tools/shoot.py` | Headless stills at any size |
 | `kit/tools/record.py` | Frame-exact 60 fps clip with a drawn cursor and real mouse events, from a plan in `kit/tools/clips/` |
@@ -34,7 +36,7 @@ Needs a browser and Python 3 for the static server. The tools need `pip install 
 ## Workflow
 
 1. **Pin the machine down.** Before any code, settle: what it is, who it is for, what single value drives it (crank angle, handle stroke, gear turn, heartbeat), how many repeated units it has (cylinders, pistons, chambers), what the phases of one cycle are called, and what the reader controls (throttle, pumping speed, load). If the user has a reference to answer, ask what it looks like so the page stays visibly different from it.
-2. **Start the project.** `python3 scripts/new_project.py <dest> --name <machine> --from starter` (or `--from engine` / `--from pump` when the new machine is close to one). Add `--layout figure` for the clean card. Serve it with `python3 <dest>/serve.py <port>`.
+2. **Start the project.** `python3 scripts/new_project.py <dest> --name <machine> --from starter` (or `--from engine` / `--from pump` / `--from regen` when the new machine is close to one). Add `--layout figure` for the clean card and `--theme <id>` for a theme. Serve it with `python3 <dest>/serve.py <port>`.
 3. **Write the kinematics first.** Closed-form functions of the driver angle only: positions, valve lifts, pressures, volumes. If you cannot write a part's position as a function of the angle, the page cannot scrub or step it. State that accumulates (a tyre filling, heat) goes in `state.mech` and only advances when the angle moves forward.
 4. **Build the parts.** Use `kit.part()` for solids, `kit.ghost()` for housings and casings, `M.glass` for anything see-through that holds the action (manifolds, barrels, hoses), `kit.stream()` for flowing fluid. Keep to the material palette in `references/look.md`.
 5. **Words.** Phase names with a one-word nickname, two or three plain sentences per phase that say what moves and why, labels for 8 to 14 parts, 3 to 5 live readouts. Write for a curious 14 year old. No em dashes.
@@ -58,3 +60,14 @@ Needs a browser and Python 3 for the static server. The tools need `pip install 
 - **figure**: the model alone on a rounded card, labels both sides, instance tags with dashed leaders above the units, a status line ("Shown at 1/60 speed · running"), a phase chip, and a slim control strip. Best for embeds, posts and clips.
 
 Pick with `meta.layout` in the mechanism, `data-layout` on `<body>`, or `?layout=` in the URL. Both are always available, so show the user both.
+
+## Themes
+
+Every colour, font and 3D material comes from one theme object in `kit/js/theme.js`: CSS variables, phase hues, accent, toon materials and ghost fill. The canvas gauge, plot and chart read the same theme, so nothing is hard-coded elsewhere.
+
+- `drafting` (default): white grid paper, ink, Instrument Serif. The original look.
+- `blueprint`: white ink on cyanotype navy, Archivo and JetBrains Mono.
+- `patent`: sepia on ivory, IM Fell English and Courier Prime.
+- `creo`: the Creo graphics window, grey solids, sketch cyan, PTC green for the active feature, IBM Plex.
+
+Pick with `?theme=` in the URL or `data-theme` on `<body>` (`new_project.py --theme`). A mechanism cannot choose its theme, because it captures `HUES` when it is imported. A new theme is a new entry in `THEMES`: keep phase hues readable on the paper colour, and on dark paper make the materials darker than the ink so the outlines read.

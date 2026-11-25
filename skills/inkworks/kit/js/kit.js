@@ -13,10 +13,13 @@ export const mod = (a, n) => ((a % n) + n) % n;
 export const clamp01 = (x) => Math.min(1, Math.max(0, x));
 export const smooth = (a, b, x) => { const t = clamp01((x - a) / (b - a)); return t * t * (3 - 2 * t); };
 
-export const INK_HEX = '#161b26';
-export const PAPER_HEX = '#f8f9fb';
-/** The four phase hues. Re-map their meaning per mechanism, keep the hues. */
-export const HUES = { blue: '#2f7de1', ochre: '#d98e04', red: '#e5482f', grey: '#7b8494' };
+export { theme, themeId, THEMES, inkA } from './theme.js';
+import { theme } from './theme.js';
+export const INK_HEX = theme.css['--ink'];
+export const PAPER_HEX = theme.css['--paper'];
+export const ACCENT_HEX = theme.accent;
+/** The four phase hues, from the theme. Re-map their meaning per mechanism, keep the hues. */
+export const HUES = { ...theme.hues };
 
 export function makeKit(canvas) {
   const INK = new THREE.Color(INK_HEX);
@@ -49,18 +52,18 @@ export function makeKit(canvas) {
   });
   /** Shared materials. glass = translucent tinted volume (manifolds, barrels, fluids). */
   const M = {
-    steel: toon('#c3ccd8'),
-    alloy: toon('#eef1f5'),
-    dark: toon('#a4afbe'),
-    valve: toon('#dde3ec'),
-    ceramic: toon('#ffffff'),
-    rubber: toon('#8f98a7'),
-    copper: toon('#d39a63'),
-    glass: toon('#8dbcf2', { transparent: true, opacity: 0.26, depthWrite: false, polygonOffset: false }),
+    steel: toon(theme.mat.steel),
+    alloy: toon(theme.mat.alloy),
+    dark: toon(theme.mat.dark),
+    valve: toon(theme.mat.valve),
+    ceramic: toon(theme.mat.ceramic),
+    rubber: toon(theme.mat.rubber),
+    copper: toon(theme.mat.copper),
+    glass: toon(theme.mat.glass, { transparent: true, opacity: theme.mat.glassOpacity, depthWrite: false, polygonOffset: false }),
   };
   const lineMat = new THREE.LineBasicMaterial({ color: INK, transparent: true, opacity: 0.85 });
   const ghostLine = new THREE.LineDashedMaterial({ color: INK, transparent: true, opacity: 0.45, dashSize: 0.09, gapSize: 0.07 });
-  const ghostFill = new THREE.MeshBasicMaterial({ color: 0x6b8ab0, transparent: true, opacity: 0.035, depthWrite: false, side: THREE.DoubleSide });
+  const ghostFill = new THREE.MeshBasicMaterial({ color: theme.ghost.fill, transparent: true, opacity: theme.ghost.opacity, depthWrite: false, side: THREE.DoubleSide });
 
   // silhouette: inverted hull pushed out by a constant number of screen pixels (uPx set by the layout)
   const outlineMat = new THREE.ShaderMaterial({
@@ -112,7 +115,7 @@ export function makeKit(canvas) {
     return g;
   }
   /** A short red line: timing marks that make rotation visible. */
-  function markLine(len, r0, color = 0xe5482f) {
+  function markLine(len, r0, color = ACCENT_HEX) {
     const g = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0, r0, 0), new THREE.Vector3(0, r0 + len, 0)]);
     return new THREE.Line(g, new THREE.LineBasicMaterial({ color }));
   }
@@ -225,7 +228,7 @@ export function makeKit(canvas) {
   }
 
   return {
-    THREE, renderer, scene, camera, controls, INK,
+    THREE, renderer, scene, camera, controls, INK, theme,
     toon, M, lineMat, ghostLine, ghostFill, outlineMat,
     part, ghost, ghostRings, markLine, inkRing,
     xCyl, aimX, gearGeometry, springGeometry, hull,

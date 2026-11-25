@@ -92,7 +92,7 @@ The layout centres `target` in the free area between the panels (or inside the c
 | --- | --- | --- |
 | `root` | | The group you built (added to the scene if you did not) |
 | `pose(theta, dt, state)` | yes | Place every part for this angle. Use `state.phi[i]` for per-unit angles. Tie particle movement and accumulation to how far theta moved this frame (`theta - lastTheta`), never to `dt`, so scrubbing and stepping stay correct |
-| `callouts` | yes | `[{ n, name, at(v, state) }]`: `at` writes the world point the leader touches (use `obj.localToWorld(v.set(...))` for moving parts) |
+| `callouts` | yes | `[{ n, name, at(v, state), show?(state) }]`: `at` writes the world point the leader touches (use `obj.localToWorld(v.set(...))` for moving parts). Optional `show` hides the label while it returns false, e.g. before the part exists |
 | `readouts` | | `[{ label, value(ctx) }]`, `ctx = { phi, i, s, phase, api }`. Return a string, or `{ text, cls }` with `cls` `'on'` (blue) or `'hot'` (red) |
 | `setLayer(key, on)` | | Show or hide what each layer toggle controls |
 | `tagAnchor(i, v, where)` | if count > 1 | World point for unit i's tag: `'below'` (sheet balloons), `'above'` (figure tags) and `'point'` (where the figure tag's dashed leader ends) |
@@ -102,5 +102,6 @@ The layout centres `target` in the free area between the panels (or inside the c
 
 - `?m=pump` picks a mechanism file (`?m=examples/engine` inside a scaffolded project).
 - `?layout=figure` or `?layout=sheet` overrides the layout.
+- `?theme=drafting|blueprint|patent|creo` overrides the theme (else `<body data-theme>`, else `drafting`). See `kit/js/theme.js`.
 - `window.__sheet` = `{ state, model, mech, kit, api, setFocus, jumpTo, setPlaying, layout }` for scripted shots, the recorder and the console.
 - Keyboard: Space plays and pauses, the left and right arrows step one phase.

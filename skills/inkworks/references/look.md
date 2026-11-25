@@ -1,6 +1,6 @@
 # The look
 
-An Inkworks page is a technical drawing that happens to move. Keep these values; the CSS tokens live on `:root` in `kit/css/sheet.css`.
+An Inkworks page is a technical drawing that happens to move. These are the values of the default `drafting` theme; every theme in `kit/js/theme.js` sets the same tokens (the CSS defaults on `:root` in `kit/css/sheet.css` are only a fallback). The rules below hold in every theme: one meaning per hue, ink outlines, no shadows, nothing that disappears against the paper.
 
 ## Paper and ink
 

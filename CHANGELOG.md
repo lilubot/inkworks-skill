@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- Themes: `kit/js/theme.js` holds every colour, font and 3D material. Four themes: `drafting` (default, unchanged look), `blueprint`, `patent`, `creo`. Pick with `?theme=`, `<body data-theme>` or `new_project.py --theme`. The gauge, plot, chart, leaders and 3D materials no longer hard-code colours or fonts; fonts load from the theme.
+- Callouts take an optional `show(state)` to hide a label while its part does not exist yet.
+- Phase list wraps to two rows past five phases; the chart key merges phases that share a colour and key.
+- New example mechanism `regen`: a parametric feature tree rebuilding a flanged hub.
+
 ## 1.1.0 (2026-11-25)
 
 - Renamed from Drafting Sheet to Inkworks. The skill is now `inkworks`, the repo `Moh4696/inkworks-skill` (the old URL redirects) and the no-Node installer clones to `~/.inkworks-skill`. If you installed 1.0.0, remove the old `drafting-sheet` skill and install again.

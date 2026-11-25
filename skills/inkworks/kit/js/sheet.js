@@ -4,7 +4,9 @@
    the layout (sheet or figure), controls, gauge, charts, callouts and tags.
    A mechanism only supplies geometry + kinematics + words (see mechanisms/).
    ========================================================================= */
-import { makeKit, THREE, D2R, mod, clamp01, INK_HEX, PAPER_HEX } from './kit.js';
+import { makeKit, THREE, D2R, mod, clamp01, INK_HEX, PAPER_HEX, ACCENT_HEX, theme, inkA } from './kit.js';
+
+const MONO = theme.css['--mono'];
 
 const $ = (id) => document.getElementById(id);
 const h = (html) => { const t = document.createElement('template'); t.innerHTML = html.trim(); return t.content.firstChild; };
@@ -207,18 +209,18 @@ export function createSheet(mech, { layout: forcedLayout } = {}) {
     if (G.red != null) {
       const [rx0, ry0] = gPt(G.red, 88), [rx1, ry1] = gPt(G.max, 88);
       const big = (G.max - G.red) / G.max * 240 > 180 ? 1 : 0;
-      s += `<path d="M${rx0} ${ry0} A88 88 0 ${big} 1 ${rx1} ${ry1}" fill="none" stroke="#e5482f" stroke-width="4"/>`;
+      s += `<path d="M${rx0} ${ry0} A88 88 0 ${big} 1 ${rx1} ${ry1}" fill="none" stroke="${ACCENT_HEX}" stroke-width="4"/>`;
     }
     const [ax0, ay0] = gPt(0, 92), [ax1, ay1] = gPt(G.max, 92);
-    s += `<path d="M${ax0} ${ay0} A92 92 0 1 1 ${ax1} ${ay1}" fill="none" stroke="rgba(22,27,38,.6)" stroke-width="1"/>`;
+    s += `<path d="M${ax0} ${ay0} A92 92 0 1 1 ${ax1} ${ay1}" fill="none" stroke="${inkA(.6)}" stroke-width="1"/>`;
     for (let v = 0; v <= G.max + 1e-6; v += G.minor) {
       const major = Math.abs(v / G.major - Math.round(v / G.major)) < 1e-6;
       const [x0, y0] = gPt(v, major ? 78 : 83), [x1, y1] = gPt(v, 91);
-      s += `<line x1="${x0}" y1="${y0}" x2="${x1}" y2="${y1}" stroke="${G.red != null && v >= G.red ? '#e5482f' : INK_HEX}" stroke-width="${major ? 1.6 : 0.8}"/>`;
-      if (major) { const [tx, ty] = gPt(v, 66); s += `<text x="${tx}" y="${ty + 3.5}" text-anchor="middle" font-family="Geist Mono" font-size="10" fill="rgba(22,27,38,.8)">${G.tick ? G.tick(v) : v}</text>`; }
+      s += `<line x1="${x0}" y1="${y0}" x2="${x1}" y2="${y1}" stroke="${G.red != null && v >= G.red ? ACCENT_HEX : INK_HEX}" stroke-width="${major ? 1.6 : 0.8}"/>`;
+      if (major) { const [tx, ty] = gPt(v, 66); s += `<text x="${tx}" y="${ty + 3.5}" text-anchor="middle" font-family='${MONO}' font-size="10" fill="${inkA(.8)}">${G.tick ? G.tick(v) : v}</text>`; }
     }
-    s += `<text x="100" y="58" text-anchor="middle" font-family="Geist Mono" font-size="7" letter-spacing="1.2" fill="rgba(22,27,38,.45)">${esc(G.label)}</text>`;
-    s += `<g id="needle"><line x1="100" y1="100" x2="100" y2="22" stroke="#e5482f" stroke-width="2" stroke-linecap="round"/><line x1="100" y1="100" x2="100" y2="114" stroke="#e5482f" stroke-width="2.2"/></g>`;
+    s += `<text x="100" y="58" text-anchor="middle" font-family='${MONO}' font-size="7" letter-spacing="1.2" fill="${inkA(.45)}">${esc(G.label)}</text>`;
+    s += `<g id="needle"><line x1="100" y1="100" x2="100" y2="22" stroke="${ACCENT_HEX}" stroke-width="2" stroke-linecap="round"/><line x1="100" y1="100" x2="100" y2="114" stroke="${ACCENT_HEX}" stroke-width="2.2"/></g>`;
     s += `<circle cx="100" cy="100" r="6" fill="${PAPER_HEX}" stroke="${INK_HEX}" stroke-width="1.3"/>`;
     $('gauge').innerHTML = s;
     needle = $('gauge').querySelector('#needle');
@@ -258,13 +260,13 @@ export function createSheet(mech, { layout: forcedLayout } = {}) {
     const top = 4, axisH = 16, rowH = (H - top - axisH) / rowCount();
     const xOf = (deg) => GUT + (W - GUT - 6) * deg / CYCLE;
     const b = bounds();
-    ctx.font = '500 10px Geist Mono';
+    ctx.font = `500 10px ${MONO}`;
     ctx.textBaseline = 'middle';
     for (let i = 0; i < N; i++) {
       const y = top + i * rowH;
       const focus = i === state.focus;
       const off = mech.instances.offset?.[i] ?? 0;
-      ctx.fillStyle = focus ? INK_HEX : 'rgba(22,27,38,.5)';
+      ctx.fillStyle = focus ? INK_HEX : inkA(.5);
       ctx.fillText(N > 1 ? `${mech.instances.short.toUpperCase()} ${i + 1}` : mech.instances.short.toUpperCase(), 4, y + rowH / 2);
       for (let s = 0; s < P.length; s++) {
         const len = mod((b[(s + 1) % b.length] ?? CYCLE) - b[s], CYCLE) || CYCLE;
@@ -277,7 +279,7 @@ export function createSheet(mech, { layout: forcedLayout } = {}) {
           ctx.fillRect(x0 + 1, y + 3, Math.max(0, x1 - x0 - 2), rowH - 6);
           ctx.globalAlpha = 1;
           if (x1 - x0 > ctx.measureText(P[s].short).width + 14) {
-            ctx.fillStyle = focus ? '#ffffff' : 'rgba(22,27,38,.6)';
+            ctx.fillStyle = focus ? '#ffffff' : inkA(.6);
             ctx.fillText(P[s].short, x0 + 7, y + rowH / 2 + 0.5);
           }
         });
@@ -292,8 +294,8 @@ export function createSheet(mech, { layout: forcedLayout } = {}) {
         ctx.stroke();
       }
     }
-    ctx.strokeStyle = 'rgba(22,27,38,.4)'; ctx.lineWidth = 1;
-    ctx.fillStyle = 'rgba(22,27,38,.5)';
+    ctx.strokeStyle = inkA(.4); ctx.lineWidth = 1;
+    ctx.fillStyle = inkA(.5);
     ctx.textAlign = 'center';
     const step = CYCLE / 8;
     for (let d = 0; d <= CYCLE + 1e-6; d += step) {
@@ -348,12 +350,12 @@ export function createSheet(mech, { layout: forcedLayout } = {}) {
     plotMax += (Math.max(PL.yMin ?? 1, peak * 1.15) - plotMax) * 0.08;
     const X = (v) => padL + (W - padL - padR) * clamp01(v);
     const Y = (p) => H - padB - (H - padB - padT) * (p / plotMax);
-    ctx.strokeStyle = 'rgba(22,27,38,.14)'; ctx.lineWidth = 1;
+    ctx.strokeStyle = inkA(.14); ctx.lineWidth = 1;
     for (let k = 0; k <= 4; k++) { const y = padT + (H - padB - padT) * k / 4; ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(W - padR, y); ctx.stroke(); }
-    ctx.strokeStyle = 'rgba(22,27,38,.6)';
+    ctx.strokeStyle = inkA(.6);
     ctx.beginPath(); ctx.moveTo(padL, padT); ctx.lineTo(padL, H - padB); ctx.lineTo(W - padR, H - padB); ctx.stroke();
-    ctx.fillStyle = 'rgba(22,27,38,.55)';
-    ctx.font = '500 19px Geist Mono';
+    ctx.fillStyle = inkA(.55);
+    ctx.font = `500 19px ${MONO}`;
     ctx.textAlign = 'right';
     ctx.fillText(plotMax >= 10 ? `${Math.round(plotMax)}` : plotMax.toFixed(1), padL - 8, padT + 6);
     ctx.fillText('0', padL - 8, H - padB + 2);
@@ -395,7 +397,7 @@ export function createSheet(mech, { layout: forcedLayout } = {}) {
     calloutLayer.appendChild(c.el);
     c.line = document.createElementNS(SVGNS, 'polyline');
     c.line.setAttribute('fill', 'none');
-    c.line.setAttribute('stroke', 'rgba(22,27,38,.62)');
+    c.line.setAttribute('stroke', inkA(.62));
     c.line.setAttribute('stroke-width', '1');
     leaderSvg.appendChild(c.line);
     c.dot = document.createElementNS(SVGNS, 'circle');
@@ -417,7 +419,7 @@ export function createSheet(mech, { layout: forcedLayout } = {}) {
     if (!layers.callouts) return;
     const { minX, maxX, minY, maxY } = footprint(W, H);
     const compact = W < 700;
-    const items = CALLOUTS.filter((c) => !compact || !mech.compactCallouts || mech.compactCallouts.includes(c.n));
+    const items = CALLOUTS.filter((c) => (!compact || !mech.compactCallouts || mech.compactCallouts.includes(c.n)) && (!c.show || c.show(state)));
     CALLOUTS.forEach((c) => { c.el.style.opacity = 0; c.line.style.opacity = 0; c.dot.style.opacity = 0; });
     const shown = [];
     items.forEach((c) => {
@@ -472,7 +474,7 @@ export function createSheet(mech, { layout: forcedLayout } = {}) {
       tags.push(el);
       if (figure) {
         const ln = document.createElementNS(SVGNS, 'line');
-        ln.setAttribute('stroke', 'rgba(22,27,38,.55)'); ln.setAttribute('stroke-width', '1'); ln.setAttribute('stroke-dasharray', '3 3');
+        ln.setAttribute('stroke', inkA(.55)); ln.setAttribute('stroke-width', '1'); ln.setAttribute('stroke-dasharray', '3 3');
         leaderSvg.appendChild(ln);
         tagLines.push(ln);
       }
@@ -660,7 +662,7 @@ function buildDom(mech, figure) {
           <div><div class="phase-name" id="phaseName">${esc(P[0].name)}</div><div class="phase-nick" id="phaseNick"></div></div>
         </div>
         <p class="phase-text" id="phaseText"></p>
-        <ol class="phase-list" id="phaseList" style="grid-template-columns: repeat(${P.length}, 1fr)">
+        <ol class="phase-list" id="phaseList" style="grid-template-columns: repeat(${P.length > 5 ? Math.ceil(P.length / 2) : P.length}, 1fr)">
           ${P.map((p, k) => `<li data-s="${k}" title="${esc(p.name)}"><i style="background:${p.color}"></i>${esc(p.list || p.nick)}</li>`).join('')}
         </ol>
         <dl class="readout" id="readout"></dl>
@@ -690,7 +692,7 @@ function buildDom(mech, figure) {
       </section>
       <section class="block chart-panel" style="--rows:${N}">
         <div class="block-head"><span class="ph-n">C</span><span>${esc(mech.chart?.label || 'Cycle chart')}</span>
-          <ul class="key" aria-label="Key">${P.map((p) => `<li><i style="background:${p.color}"></i>${esc(p.key || p.name)}</li>`).join('')}</ul>
+          <ul class="key" aria-label="Key">${P.filter((p, k) => P.findIndex((o) => o.color === p.color && (o.key || o.name) === (p.key || p.name)) === k).map((p) => `<li><i style="background:${p.color}"></i>${esc(p.key || p.name)}</li>`).join('')}</ul>
         </div>
         <canvas id="chart"></canvas>
         ${mech.chart?.note ? `<p class="chart-note">${esc(mech.chart.note)}</p>` : ''}

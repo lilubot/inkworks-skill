@@ -2,7 +2,7 @@
 """Start a new Inkworks project from the kit.
 
   python3 scripts/new_project.py ../how-a-lock-works --name lock --from starter --layout sheet
-  python3 scripts/new_project.py ./pump-page --from pump --layout figure
+  python3 scripts/new_project.py ./pump-page --from pump --layout figure --theme blueprint
 
 Copies kit/ (page shell, css, js kit, vendored three.js, tools) into DEST, copies the chosen
 example mechanism to js/mechanisms/<name>.js (renamed id), and points index.html at it.
@@ -20,8 +20,9 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("dest")
     ap.add_argument("--name", help="mechanism file name, e.g. lock (default: --from)")
-    ap.add_argument("--from", dest="src", default="starter", choices=["starter", "engine", "pump"])
+    ap.add_argument("--from", dest="src", default="starter", choices=["starter", "engine", "pump", "regen"])
     ap.add_argument("--layout", choices=["sheet", "figure"], default=None, help="default layout (else the mechanism's own)")
+    ap.add_argument("--theme", choices=["drafting", "blueprint", "patent", "creo"], default=None, help="default theme (see kit/js/theme.js)")
     ap.add_argument("--force", action="store_true", help="allow a non-empty destination")
     a = ap.parse_args()
 
@@ -34,7 +35,7 @@ def main():
     mech_dir = dest / "js" / "mechanisms"
     ex_dir = mech_dir / "examples"
     ex_dir.mkdir(exist_ok=True)
-    for f in ("starter.js", "engine.js", "pump.js"):
+    for f in ("starter.js", "engine.js", "pump.js", "regen.js"):
         src = mech_dir / f
         if src.exists():
             text = src.read_text()
@@ -46,7 +47,7 @@ def main():
 
     index = dest / "index.html"
     html = index.read_text()
-    attrs = f'data-mechanism="{name}"' + (f' data-layout="{a.layout}"' if a.layout else "")
+    attrs = f'data-mechanism="{name}"' + (f' data-layout="{a.layout}"' if a.layout else "") + (f' data-theme="{a.theme}"' if a.theme else "")
     html = re.sub(r"<body[^>]*>", f"<body {attrs}>", html, count=1)
     index.write_text(html)
 

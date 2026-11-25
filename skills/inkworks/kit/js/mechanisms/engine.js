@@ -248,7 +248,7 @@ export default {
     const beltLen = beltCurve.getLength();
     const BELT_TEETH = 70;
     const beltPts = new THREE.Points(new THREE.BufferGeometry().setAttribute('position', new THREE.Float32BufferAttribute(new Float32Array(BELT_TEETH * 3), 3)),
-      new THREE.PointsMaterial({ color: 0x161b26, size: 3, sizeAttenuation: false }));
+      new THREE.PointsMaterial({ color: kit.INK, size: 3, sizeAttenuation: false }));
     belt.add(beltPts);
 
     /* ---------- manifolds ---------- */

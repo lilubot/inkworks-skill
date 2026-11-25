@@ -97,7 +97,7 @@ with sync_playwright() as p:
                 check("chart scrub", 0.6 < frac < 0.95, f"at {frac:.2f} of the cycle")
 
             vis = ev("[...document.querySelectorAll('.callout:not(.cyltag)')].filter(e => +e.style.opacity === 1).length")
-            want = ev("(() => { const m = window.__sheet.mech, n = window.__sheet.model.callouts.length; return Math.min(4, innerWidth < 700 && m.compactCallouts ? m.compactCallouts.length : n); })()")
+            want = ev("(() => { const S = window.__sheet, m = S.mech; const ok = S.model.callouts.filter((c) => (!(innerWidth < 700 && m.compactCallouts) || m.compactCallouts.includes(c.n)) && (!c.show || c.show(S.state))); return Math.min(4, ok.length); })()")
             check("callouts shown", vis >= want, f"{vis} (want {want}+)")
             check("no page errors", not errs, "; ".join(errs[:3]))
             pg.close()
