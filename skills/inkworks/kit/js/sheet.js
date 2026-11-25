@@ -552,8 +552,26 @@ export function createSheet(mech, { layout: forcedLayout } = {}) {
   let lastFit = fitDist;
   const tmpV = new THREE.Vector3();
 
+  // Idle: once paused and nothing has changed for SETTLE seconds, stop drawing until something does.
+  // Saves battery and lets the main thread go idle (headless tools such as impeccable detect wait for that).
+  // Trade-off: dt-driven smoothing (flow fades, heat cooling) freezes where it stands while idle.
+  const SETTLE = 1.5;
+  let quiet = 0, lastSig = '', wake = true;
+  controls.addEventListener('start', () => { wake = true; });
+  addEventListener('resize', () => { wake = true; });
+  const signature = () => {
+    let mechSig = '';
+    try { mechSig = JSON.stringify(state.mech); } catch { mechSig = String(Math.random()); }
+    return [state.theta, state.input, state.rate.toFixed(3), state.focus, state.slow, JSON.stringify(state.layers),
+      mechSig, vw, vh, fitDist.toFixed(3), camera.position.toArray().map((v) => v.toFixed(4)).join()].join('|');
+  };
+
   function frame() {
-    const dt = Math.min(clock.getDelta(), 0.05);
+    const rawDt = clock.getDelta();
+    const dt = Math.min(rawDt, 0.05);
+    const sig = signature();
+    if (wake || sig !== lastSig || state.playing || state.tween || state.scrubbing || intro < 1 || layers.orbit) { quiet = 0; wake = false; lastSig = sig; }
+    else if ((quiet += rawDt) > SETTLE) { requestAnimationFrame(frame); return; }
     // the rate follows the input with some inertia
     state.rate += (D.target(state.input) - state.rate) * (1 - Math.exp(-dt * (D.inertia ?? 1.4)));
     if (state.tween) {
