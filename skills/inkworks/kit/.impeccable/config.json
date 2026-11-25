@@ -1,0 +1,32 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "geist mono",
+        "createdAt": "2026-11-25T16:21:56.292Z",
+        "reason": "Drafting theme identity: Geist Mono is the instrument-readout voice of the sheet"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "http://**"
+        ],
+        "createdAt": "2026-11-25T16:22:16.472Z",
+        "reason": "Datasheet blocks are open sections under a top rule; their 90% paper fill only masks the grid and draws no edge"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "http://**"
+        ],
+        "createdAt": "2026-11-25T16:22:16.478Z",
+        "reason": "Only the patent theme is cream, and period ivory stock is its brief"
+      }
+    ]
+  }
+}
