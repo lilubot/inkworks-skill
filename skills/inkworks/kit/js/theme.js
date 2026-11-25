@@ -3,7 +3,7 @@
    frontmatter tokens + prose), so impeccable can write, critique and polish it.
      ?theme=<id>  ->  themes/<id>.md        (built-ins: drafting, blueprint, patent, creo)
      ?theme=project or <body data-theme="project">  ->  ./DESIGN.md   (a project's own)
-   else <body data-theme>, else 'drafting'. drafting.md is always loaded as the base,
+   else <body data-theme>, else 'creo'. drafting.md is always loaded as the base,
    so a theme only needs the keys it changes. Token keys: references/themes.md.
 
    Resolved with top-level await before any mechanism loads, so HUES (kit.js) already
@@ -64,8 +64,9 @@ async function load(url) {
 }
 
 const base = new URL('../themes/', import.meta.url);
-const asked = new URLSearchParams(location.search).get('theme') || document.body.dataset.theme || 'drafting';
-const id = /^[a-z0-9-]+$/i.test(asked) ? asked : 'drafting';
+export const THEMES = Object.freeze(['creo', 'drafting', 'blueprint', 'patent']);
+const asked = new URLSearchParams(location.search).get('theme') || document.body.dataset.theme || 'creo';
+const id = /^[a-z0-9-]+$/i.test(asked) ? asked : 'creo';
 const fallback = await load(new URL('drafting.md', base));
 let fm = fallback;
 if (id !== 'drafting') {
@@ -81,7 +82,16 @@ const ty = fm.typography ? { display: ft.display, body: ft.body, mono: ft.mono, 
 const [glass, glassOpacity] = splitAlpha(c['mat-glass'], 0.26);
 const [ghostFill, ghostOpacity] = splitAlpha(c['ghost-fill'], 0.035);
 
+function hexLuminance(hex) {
+  if (!hex || typeof hex !== 'string' || hex[0] !== '#' || hex.length < 7) return 0.9;
+  const r = parseInt(hex.slice(1, 3), 16) / 255;
+  const g = parseInt(hex.slice(3, 5), 16) / 255;
+  const b = parseInt(hex.slice(5, 7), 16) / 255;
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+}
+
 export const themeId = id;
+export const isDarkTheme = hexLuminance(c.paper) < 0.35;
 export const theme = {
   label: fm.name || id,
   css: {
