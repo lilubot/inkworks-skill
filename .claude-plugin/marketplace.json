@@ -1,0 +1,34 @@
+{
+  "name": "drafting-sheet-skill",
+  "description": "An agent skill for interactive 3D how-it-works pages in a white engineering-drawing style: ink-outlined three.js machines you can slow down, step, scrub and orbit, with numbered labels, live readouts and a cycle chart. Ships an engine and a bike pump, plus a 60 fps walkthrough-clip recorder.",
+  "owner": {
+    "name": "exploraX",
+    "url": "https://x.com/exploraX_"
+  },
+  "plugins": [
+    {
+      "name": "drafting-sheet-skill",
+      "description": "An agent skill for interactive 3D how-it-works pages in a white engineering-drawing style: ink-outlined three.js machines you can slow down, step, scrub and orbit, with numbered labels, live readouts and a cycle chart. Ships an engine and a bike pump, plus a 60 fps walkthrough-clip recorder.",
+      "version": "1.0.0",
+      "source": "./",
+      "author": {
+        "name": "exploraX",
+        "url": "https://x.com/exploraX_"
+      },
+      "homepage": "https://github.com/Moh4696/drafting-sheet-skill",
+      "repository": "https://github.com/Moh4696/drafting-sheet-skill",
+      "license": "MIT",
+      "keywords": [
+        "skills",
+        "threejs",
+        "3d",
+        "explainer",
+        "interactive",
+        "mechanism",
+        "engineering",
+        "education",
+        "animation"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+name: Check skill
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Skill loads in every agent, manifests agree, scripts parse
+        run: |
+          npm install --no-save --no-package-lock yaml@2.6.1
+          node tests/check.mjs
+      - name: Installer works in a clean home
+        run: |
+          export HOME="$RUNNER_TEMP/home" && mkdir -p "$HOME/.claude" "$HOME/.codex"
+          bash install.sh
+          test -L "$HOME/.claude/skills/drafting-sheet" && test -L "$HOME/.codex/skills/drafting-sheet"
+          bash install.sh --uninstall --claude --codex
+          test ! -e "$HOME/.claude/skills/drafting-sheet"
+
+  pages:
+    # serves the kit and drives every control of every mechanism in both layouts (headless Chromium, SwiftShader WebGL)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install Playwright
+        run: |
+          pip install -q "playwright>=1.45"
+          python -m playwright install --with-deps chromium
+      - name: Scaffold a project, serve it, smoke-test all mechanisms
+        run: |
+          P="$RUNNER_TEMP/proj"
+          python skills/drafting-sheet/scripts/new_project.py "$P" --name lock --from starter
+          (cd "$P" && python serve.py 9081 > /dev/null 2>&1 &)
+          sleep 2
+          for m in lock examples/engine examples/pump; do
+            echo "== $m"
+            python "$P/tools/smoke.py" --browser chromium --url "http://localhost:9081/?m=$m" --sizes 1440x900,390x844
+          done
+      - name: Stills
+        if: always()
+        run: |
+          P="$RUNNER_TEMP/proj"; mkdir -p "$RUNNER_TEMP/stills"
+          for m in examples/engine examples/pump; do for l in sheet figure; do
+            python "$P/tools/shoot.py" --browser chromium "$RUNNER_TEMP/stills/$(basename $m)-$l.png" --url "http://localhost:9081/?m=$m&layout=$l" --wait 3 || true
+          done; done
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: stills
+          path: ${{ runner.temp }}/stills

@@ -1,0 +1,21 @@
+{
+  "name": "drafting-sheet-skill",
+  "interface": {
+    "displayName": "Drafting Sheet Skill"
+  },
+  "plugins": [
+    {
+      "name": "drafting-sheet-skill",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/Moh4696/drafting-sheet-skill.git",
+        "ref": "main"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Design"
+    }
+  ]
+}
